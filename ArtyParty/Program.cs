@@ -24,7 +24,6 @@ namespace ArtyParty
                     System.IO.File.WriteAllText("CrashInfo.txt", e.ToString());
                     throw;
                 }
-
             }
         }
     }

@@ -1,0 +1,36 @@
+{
+  "EntityManagementValueList": [
+    {
+      "Name": "Entities\\Enemy",
+      "SelectedProperties": [],
+      "InstanceManagementValuesList": [
+        {
+          "SelectedProperties": [],
+          "Name": "SpriteInstance"
+        },
+        {
+          "SelectedProperties": [],
+          "Name": "AxisAlignedRectangleInstance"
+        }
+      ]
+    },
+    {
+      "Name": "Entities\\Player",
+      "SelectedProperties": [],
+      "InstanceManagementValuesList": [
+        {
+          "SelectedProperties": [],
+          "Name": "SpriteInstance"
+        },
+        {
+          "SelectedProperties": [],
+          "Name": "MainTankBody"
+        },
+        {
+          "SelectedProperties": [],
+          "Name": "GunHolder"
+        }
+      ]
+    }
+  ]
+}

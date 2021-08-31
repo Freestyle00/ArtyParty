@@ -19,13 +19,24 @@ namespace ArtyParty
     public static partial class GlobalContent
     {
         
+        public static FlatRedBall.Gum.GumIdb GumProject { get; set; }
         [System.Obsolete("Use GetFile instead")]
         public static object GetStaticMember (string memberName) 
         {
+            switch(memberName)
+            {
+                case  "GumProject":
+                    return GumProject;
+            }
             return null;
         }
         public static object GetFile (string memberName) 
         {
+            switch(memberName)
+            {
+                case  "GumProject":
+                    return GumProject;
+            }
             return null;
         }
         public static bool IsInitialized { get; private set; }
@@ -34,10 +45,13 @@ namespace ArtyParty
         public static void Initialize () 
         {
             
+            FlatRedBall.Gum.GumIdb.StaticInitialize("content/gumproject/gumproject.gumx"); FlatRedBall.Gum.GumIdbExtensions.RegisterTypes();  FlatRedBall.Gui.GuiManager.BringsClickedWindowsToFront = false;FlatRedBall.Gum.GumIdb.FixedCanvasAspectRatio = null;Gum.Wireframe.GraphicalUiElement.ShowLineRectangles = false;
             			IsInitialized = true;
             #if DEBUG && WINDOWS
             InitializeFileWatch();
             #endif
+            // Added by GumPlugin becasue of the Show Mouse checkbox on the .gumx:
+            FlatRedBall.FlatRedBallServices.Game.IsMouseVisible = true;
         }
         public static void Reload (object whatToReload) 
         {
@@ -64,6 +78,10 @@ namespace ArtyParty
                 System.Threading.Thread.Sleep(500);
                 var fullFileName = e.FullPath;
                 var relativeFileName = FlatRedBall.IO.FileManager.MakeRelative(FlatRedBall.IO.FileManager.Standardize(fullFileName));
+                if (relativeFileName == "content/gumproject/gumproject.gumx")
+                {
+                    Reload(GumProject);
+                }
             }
             catch{}
         }

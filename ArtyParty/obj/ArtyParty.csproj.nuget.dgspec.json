@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Nick_\\Documents\\FlatRedBallProjects\\ArtyParty\\ArtyParty\\ArtyParty.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Nick_\\Documents\\FlatRedBallProjects\\ArtyParty\\ArtyParty\\ArtyParty.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Nick_\\Documents\\FlatRedBallProjects\\ArtyParty\\ArtyParty\\ArtyParty.csproj",
+        "projectName": "ArtyParty",
+        "projectPath": "C:\\Users\\Nick_\\Documents\\FlatRedBallProjects\\ArtyParty\\ArtyParty\\ArtyParty.csproj",
+        "packagesPath": "C:\\Users\\Nick_\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Nick_\\Documents\\FlatRedBallProjects\\ArtyParty\\ArtyParty\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Nick_\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net471"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net471": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net471": {
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

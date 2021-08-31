@@ -1,4 +1,6 @@
-﻿#define SupportsEditMode
+﻿#define IncludeSetVariable
+#define SupportsEditMode
+#define HasGum
 
 using FlatRedBall;
 using FlatRedBall.Gui;

@@ -61,7 +61,7 @@ namespace ArtyParty
             GlobalContent.Initialize();
 
             			CameraSetup.SetupCamera(SpriteManager.Camera, graphics);
-Type startScreenType = null;
+            Type startScreenType = typeof(ArtyParty.Screens.Level1);
 
             var commandLineArgs = Environment.GetCommandLineArgs();
             if (commandLineArgs.Length > 0)
