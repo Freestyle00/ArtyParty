@@ -12,9 +12,9 @@ using System.Collections.Generic;
 using System.Text;
 using ArtyParty.DataTypes;
 using FlatRedBall.IO.Csv;
-namespace ArtyParty.Entities
+namespace ArtyParty.Entities.Projectiles
 {
-    public partial class Player : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable, FlatRedBall.Math.Geometry.ICollidable
+    public partial class Armor_Piercing_round : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable, FlatRedBall.Performance.IPoolable, FlatRedBall.Math.Geometry.ICollidable
     {
         // This is made static so that static lazy-loaded content can access it.
         public static string ContentManagerName { get; set; }
@@ -27,52 +27,16 @@ namespace ArtyParty.Entities
         public static System.Collections.Generic.Dictionary<System.String, ArtyParty.DataTypes.PlatformerValues> PlatformerValuesStatic;
         
         private FlatRedBall.Sprite SpriteInstance;
-        private FlatRedBall.Math.Geometry.Polygon mTurret;
-        public FlatRedBall.Math.Geometry.Polygon Turret
+        private FlatRedBall.Math.Geometry.Polygon mPolygonInstance;
+        public FlatRedBall.Math.Geometry.Polygon PolygonInstance
         {
             get
             {
-                return mTurret;
+                return mPolygonInstance;
             }
             private set
             {
-                mTurret = value;
-            }
-        }
-        private FlatRedBall.Math.Geometry.AxisAlignedRectangle mMainTankBody;
-        public FlatRedBall.Math.Geometry.AxisAlignedRectangle MainTankBody
-        {
-            get
-            {
-                return mMainTankBody;
-            }
-            private set
-            {
-                mMainTankBody = value;
-            }
-        }
-        private FlatRedBall.Math.Geometry.AxisAlignedRectangle mGunHolder;
-        public FlatRedBall.Math.Geometry.AxisAlignedRectangle GunHolder
-        {
-            get
-            {
-                return mGunHolder;
-            }
-            private set
-            {
-                mGunHolder = value;
-            }
-        }
-        private FlatRedBall.Math.Geometry.AxisAlignedRectangle mTracks;
-        public FlatRedBall.Math.Geometry.AxisAlignedRectangle Tracks
-        {
-            get
-            {
-                return mTracks;
-            }
-            private set
-            {
-                mTracks = value;
+                mPolygonInstance = value;
             }
         }
         public event Action<ArtyParty.DataTypes.PlatformerValues> BeforeGroundMovementSet;
@@ -141,6 +105,8 @@ namespace ArtyParty.Entities
                 return mAfterDoubleJump;
             }
         }
+        public int Index { get; set; }
+        public bool Used { get; set; }
         private FlatRedBall.Math.Geometry.ShapeCollection mGeneratedCollision;
         public FlatRedBall.Math.Geometry.ShapeCollection Collision
         {
@@ -358,17 +324,17 @@ namespace ArtyParty.Entities
         public System.Action LandedAction;
 
 
-        public string EditModeType { get; set; } = "ArtyParty.Entities.Player";
+        public string EditModeType { get; set; } = "ArtyParty.Entities.Projectiles.Armor_Piercing_round";
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
-        public Player () 
+        public Armor_Piercing_round () 
         	: this(FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, true)
         {
         }
-        public Player (string contentManagerName) 
+        public Armor_Piercing_round (string contentManagerName) 
         	: this(contentManagerName, true)
         {
         }
-        public Player (string contentManagerName, bool addToManagers) 
+        public Armor_Piercing_round (string contentManagerName, bool addToManagers) 
         	: base()
         {
             ContentManagerName = contentManagerName;
@@ -380,18 +346,9 @@ namespace ArtyParty.Entities
             SpriteInstance = new FlatRedBall.Sprite();
             SpriteInstance.Name = "SpriteInstance";
             SpriteInstance.CreationSource = "Glue";
-            mTurret = new FlatRedBall.Math.Geometry.Polygon();
-            mTurret.Name = "Turret";
-            mTurret.CreationSource = "Glue";
-            mMainTankBody = new FlatRedBall.Math.Geometry.AxisAlignedRectangle();
-            mMainTankBody.Name = "MainTankBody";
-            mMainTankBody.CreationSource = "Glue";
-            mGunHolder = new FlatRedBall.Math.Geometry.AxisAlignedRectangle();
-            mGunHolder.Name = "GunHolder";
-            mGunHolder.CreationSource = "Glue";
-            mTracks = new FlatRedBall.Math.Geometry.AxisAlignedRectangle();
-            mTracks.Name = "Tracks";
-            mTracks.CreationSource = "Glue";
+            mPolygonInstance = new FlatRedBall.Math.Geometry.Polygon();
+            mPolygonInstance.Name = "PolygonInstance";
+            mPolygonInstance.CreationSource = "Glue";
             
             // this provides default controls for the platformer using either keyboad or 360. Can be overridden in custom code:
             this.InitializeInput();
@@ -436,20 +393,14 @@ namespace ArtyParty.Entities
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(SpriteInstance, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mTurret, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mMainTankBody, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mGunHolder, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mTracks, LayerProvidedByContainer);
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mPolygonInstance, LayerProvidedByContainer);
         }
         public virtual void AddToManagers (FlatRedBall.Graphics.Layer layerToAddTo) 
         {
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(SpriteInstance, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mTurret, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mMainTankBody, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mGunHolder, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mTracks, LayerProvidedByContainer);
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mPolygonInstance, LayerProvidedByContainer);
             CurrentMovementType = MovementType.Ground;
             AddToManagersBottomUp(layerToAddTo);
             CustomInitialize();
@@ -466,27 +417,20 @@ namespace ArtyParty.Entities
         }
         public virtual void Destroy () 
         {
+            var wasUsed = this.Used;
+            if (Used)
+            {
+                Factories.Armor_Piercing_roundFactory.MakeUnused(this, false);
+            }
             FlatRedBall.SpriteManager.RemovePositionedObject(this);
             
             if (SpriteInstance != null)
             {
-                FlatRedBall.SpriteManager.RemoveSprite(SpriteInstance);
+                FlatRedBall.SpriteManager.RemoveSpriteOneWay(SpriteInstance);
             }
-            if (Turret != null)
+            if (PolygonInstance != null)
             {
-                FlatRedBall.Math.Geometry.ShapeManager.Remove(Turret);
-            }
-            if (MainTankBody != null)
-            {
-                FlatRedBall.Math.Geometry.ShapeManager.Remove(MainTankBody);
-            }
-            if (GunHolder != null)
-            {
-                FlatRedBall.Math.Geometry.ShapeManager.Remove(GunHolder);
-            }
-            if (Tracks != null)
-            {
-                FlatRedBall.Math.Geometry.ShapeManager.Remove(Tracks);
+                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(PolygonInstance);
             }
             mGeneratedCollision.RemoveFromManagers(clearThis: false);
             CustomDestroy();
@@ -500,94 +444,48 @@ namespace ArtyParty.Entities
                 SpriteInstance.CopyAbsoluteToRelative();
                 SpriteInstance.AttachTo(this, false);
             }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.X = -40f;
+            }
+            else
+            {
+                SpriteInstance.RelativeX = -40f;
+            }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.Y = -8f;
+            }
+            else
+            {
+                SpriteInstance.RelativeY = -8f;
+            }
             SpriteInstance.TextureScale = 1f;
-            if (mTurret.Parent == null)
+            if (mPolygonInstance.Parent == null)
             {
-                mTurret.CopyAbsoluteToRelative();
-                mTurret.AttachTo(this, false);
+                mPolygonInstance.CopyAbsoluteToRelative();
+                mPolygonInstance.AttachTo(this, false);
             }
-            if (Turret.Parent == null)
+            if (PolygonInstance.Parent == null)
             {
-                Turret.X = 0f;
-            }
-            else
-            {
-                Turret.RelativeX = 0f;
-            }
-            if (Turret.Parent == null)
-            {
-                Turret.Y = 9f;
+                PolygonInstance.X = 16f;
             }
             else
             {
-                Turret.RelativeY = 9f;
+                PolygonInstance.RelativeX = 16f;
             }
-            if (Turret.Parent == null)
+            if (PolygonInstance.Parent == null)
             {
-                Turret.RotationZ = 0.052359883f;
+                PolygonInstance.Y = 16f;
             }
             else
             {
-                Turret.RelativeRotationZ = 0.052359883f;
+                PolygonInstance.RelativeY = 16f;
             }
-            Turret.Color = Microsoft.Xna.Framework.Color.Turquoise;
-            Turret.IgnoreParentPosition = false;
-            Turret.ParentRotationChangesPosition = false;
-            Turret.ParentRotationChangesRotation = false;
-            FlatRedBall.Math.Geometry.Point[] TurretPoints = new FlatRedBall.Math.Geometry.Point[] {new FlatRedBall.Math.Geometry.Point(0, 0), new FlatRedBall.Math.Geometry.Point(40, 0), new FlatRedBall.Math.Geometry.Point(40, 3), new FlatRedBall.Math.Geometry.Point(0, 3), new FlatRedBall.Math.Geometry.Point(0, 0) };
-            Turret.Points = TurretPoints;
-            if (mMainTankBody.Parent == null)
-            {
-                mMainTankBody.CopyAbsoluteToRelative();
-                mMainTankBody.AttachTo(this, false);
-            }
-            MainTankBody.Width = 32f;
-            MainTankBody.Height = 10f;
-            MainTankBody.Color = Microsoft.Xna.Framework.Color.Blue;
-            if (mGunHolder.Parent == null)
-            {
-                mGunHolder.CopyAbsoluteToRelative();
-                mGunHolder.AttachTo(this, false);
-            }
-            if (GunHolder.Parent == null)
-            {
-                GunHolder.X = -8f;
-            }
-            else
-            {
-                GunHolder.RelativeX = -8f;
-            }
-            if (GunHolder.Parent == null)
-            {
-                GunHolder.Y = 10f;
-            }
-            else
-            {
-                GunHolder.RelativeY = 10f;
-            }
-            GunHolder.Width = 16f;
-            GunHolder.Height = 10f;
-            GunHolder.Color = Microsoft.Xna.Framework.Color.Blue;
-            if (mTracks.Parent == null)
-            {
-                mTracks.CopyAbsoluteToRelative();
-                mTracks.AttachTo(this, false);
-            }
-            if (Tracks.Parent == null)
-            {
-                Tracks.Y = -7f;
-            }
-            else
-            {
-                Tracks.RelativeY = -7f;
-            }
-            Tracks.Width = 36f;
-            Tracks.Height = 5f;
-            Tracks.Color = Microsoft.Xna.Framework.Color.Blue;
+            FlatRedBall.Math.Geometry.Point[] PolygonInstancePoints = new FlatRedBall.Math.Geometry.Point[] {new FlatRedBall.Math.Geometry.Point(0, 0), new FlatRedBall.Math.Geometry.Point(2, 0), new FlatRedBall.Math.Geometry.Point(2, 3), new FlatRedBall.Math.Geometry.Point(1, 5), new FlatRedBall.Math.Geometry.Point(0, 3), new FlatRedBall.Math.Geometry.Point(0, 0) };
+            PolygonInstance.Points = PolygonInstancePoints;
             mGeneratedCollision = new FlatRedBall.Math.Geometry.ShapeCollection();
-            Collision.AxisAlignedRectangles.AddOneWay(mMainTankBody);
-            Collision.AxisAlignedRectangles.AddOneWay(mGunHolder);
-            Collision.AxisAlignedRectangles.AddOneWay(mTracks);
+            Collision.Polygons.AddOneWay(mPolygonInstance);
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
         public virtual void AddToManagersBottomUp (FlatRedBall.Graphics.Layer layerToAddTo) 
@@ -601,21 +499,9 @@ namespace ArtyParty.Entities
             {
                 FlatRedBall.SpriteManager.RemoveSpriteOneWay(SpriteInstance);
             }
-            if (Turret != null)
+            if (PolygonInstance != null)
             {
-                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(Turret);
-            }
-            if (MainTankBody != null)
-            {
-                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(MainTankBody);
-            }
-            if (GunHolder != null)
-            {
-                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(GunHolder);
-            }
-            if (Tracks != null)
-            {
-                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(Tracks);
+                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(PolygonInstance);
             }
             mGeneratedCollision.RemoveFromManagers(clearThis: false);
         }
@@ -624,70 +510,41 @@ namespace ArtyParty.Entities
             if (callOnContainedElements)
             {
             }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.X = -40f;
+            }
+            else
+            {
+                SpriteInstance.RelativeX = -40f;
+            }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.Y = -8f;
+            }
+            else
+            {
+                SpriteInstance.RelativeY = -8f;
+            }
             SpriteInstance.TextureScale = 1f;
-            if (Turret.Parent == null)
+            if (PolygonInstance.Parent == null)
             {
-                Turret.X = 0f;
+                PolygonInstance.X = 16f;
             }
             else
             {
-                Turret.RelativeX = 0f;
+                PolygonInstance.RelativeX = 16f;
             }
-            if (Turret.Parent == null)
+            if (PolygonInstance.Parent == null)
             {
-                Turret.Y = 9f;
+                PolygonInstance.Y = 16f;
             }
             else
             {
-                Turret.RelativeY = 9f;
+                PolygonInstance.RelativeY = 16f;
             }
-            if (Turret.Parent == null)
-            {
-                Turret.RotationZ = 0.052359883f;
-            }
-            else
-            {
-                Turret.RelativeRotationZ = 0.052359883f;
-            }
-            Turret.Color = Microsoft.Xna.Framework.Color.Turquoise;
-            Turret.IgnoreParentPosition = false;
-            Turret.ParentRotationChangesPosition = false;
-            Turret.ParentRotationChangesRotation = false;
-            MainTankBody.Width = 32f;
-            MainTankBody.Height = 10f;
-            MainTankBody.Color = Microsoft.Xna.Framework.Color.Blue;
-            if (GunHolder.Parent == null)
-            {
-                GunHolder.X = -8f;
-            }
-            else
-            {
-                GunHolder.RelativeX = -8f;
-            }
-            if (GunHolder.Parent == null)
-            {
-                GunHolder.Y = 10f;
-            }
-            else
-            {
-                GunHolder.RelativeY = 10f;
-            }
-            GunHolder.Width = 16f;
-            GunHolder.Height = 10f;
-            GunHolder.Color = Microsoft.Xna.Framework.Color.Blue;
-            if (Tracks.Parent == null)
-            {
-                Tracks.Y = -7f;
-            }
-            else
-            {
-                Tracks.RelativeY = -7f;
-            }
-            Tracks.Width = 36f;
-            Tracks.Height = 5f;
-            Tracks.Color = Microsoft.Xna.Framework.Color.Blue;
-            GroundMovement = Entities.Player.PlatformerValuesStatic["Ground"];
-            AirMovement = Entities.Player.PlatformerValuesStatic["Air"];
+            GroundMovement = Entities.Projectiles.Armor_Piercing_round.PlatformerValuesStatic["Ground"];
+            AirMovement = Entities.Projectiles.Armor_Piercing_round.PlatformerValuesStatic["Air"];
         }
         public virtual void ConvertToManuallyUpdated () 
         {
@@ -726,7 +583,7 @@ namespace ArtyParty.Entities
                 {
                     if (!mRegisteredUnloads.Contains(ContentManagerName) && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
                     {
-                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("PlayerStaticUnload", UnloadStaticContent);
+                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("Armor_Piercing_roundStaticUnload", UnloadStaticContent);
                         mRegisteredUnloads.Add(ContentManagerName);
                     }
                 }
@@ -737,7 +594,7 @@ namespace ArtyParty.Entities
                         char oldDelimiter = FlatRedBall.IO.Csv.CsvFileManager.Delimiter;
                         FlatRedBall.IO.Csv.CsvFileManager.Delimiter = ',';
                         System.Collections.Generic.Dictionary<System.String, ArtyParty.DataTypes.PlatformerValues> temporaryCsvObject = new System.Collections.Generic.Dictionary<System.String, ArtyParty.DataTypes.PlatformerValues>();
-                        FlatRedBall.IO.Csv.CsvFileManager.CsvDeserializeDictionary<System.String, ArtyParty.DataTypes.PlatformerValues>("content/entities/player/platformervaluesstatic.csv", temporaryCsvObject, FlatRedBall.IO.Csv.DuplicateDictionaryEntryBehavior.Replace);
+                        FlatRedBall.IO.Csv.CsvFileManager.CsvDeserializeDictionary<System.String, ArtyParty.DataTypes.PlatformerValues>("content/entities/projectiles/armor_piercing_round/platformervaluesstatic.csv", temporaryCsvObject, FlatRedBall.IO.Csv.DuplicateDictionaryEntryBehavior.Replace);
                         FlatRedBall.IO.Csv.CsvFileManager.Delimiter = oldDelimiter;
                         PlatformerValuesStatic = temporaryCsvObject;
                     }
@@ -749,7 +606,7 @@ namespace ArtyParty.Entities
                 {
                     if (!mRegisteredUnloads.Contains(ContentManagerName) && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
                     {
-                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("PlayerStaticUnload", UnloadStaticContent);
+                        FlatRedBall.FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("Armor_Piercing_roundStaticUnload", UnloadStaticContent);
                         mRegisteredUnloads.Add(ContentManagerName);
                     }
                 }
@@ -804,10 +661,7 @@ namespace ArtyParty.Entities
         {
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(this);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(SpriteInstance);
-            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(Turret);
-            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(MainTankBody);
-            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(GunHolder);
-            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(Tracks);
+            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(PolygonInstance);
         }
         
 
@@ -1472,24 +1326,9 @@ namespace ArtyParty.Entities
             }
             if (layerToRemoveFrom != null)
             {
-                layerToRemoveFrom.Remove(Turret);
+                layerToRemoveFrom.Remove(PolygonInstance);
             }
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(Turret, layerToMoveTo);
-            if (layerToRemoveFrom != null)
-            {
-                layerToRemoveFrom.Remove(MainTankBody);
-            }
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(MainTankBody, layerToMoveTo);
-            if (layerToRemoveFrom != null)
-            {
-                layerToRemoveFrom.Remove(GunHolder);
-            }
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(GunHolder, layerToMoveTo);
-            if (layerToRemoveFrom != null)
-            {
-                layerToRemoveFrom.Remove(Tracks);
-            }
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(Tracks, layerToMoveTo);
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(PolygonInstance, layerToMoveTo);
             LayerProvidedByContainer = layerToMoveTo;
         }
     }

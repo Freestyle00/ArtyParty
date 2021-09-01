@@ -22,6 +22,7 @@ namespace ArtyParty.Screens
         private FlatRedBall.Entities.CameraControllingEntity CameraControllingEntityInstance;
         private ArtyParty.Entities.Player PlayerInstance;
         private FlatRedBall.Math.Collision.DelegateCollisionRelationship<ArtyParty.Entities.Player, FlatRedBall.TileCollisions.TileShapeCollection> PlayerInstanceVsSolidCollision;
+        protected FlatRedBall.Math.PositionedObjectList<ArtyParty.Entities.Projectiles.Armor_Piercing_round> Armor_Piercing_roundList;
         ArtyParty.FormsControls.Screens.GameScreenGumForms Forms;
         ArtyParty.GumRuntimes.GameScreenGumRuntime GumScreen;
         public GameScreen () 
@@ -29,6 +30,8 @@ namespace ArtyParty.Screens
         {
             // Not instantiating for FlatRedBall.TileGraphics.LayeredTileMap Map in Screens\GameScreen (Screen) because properties on the object prevent it
             // Not instantiating for FlatRedBall.TileCollisions.TileShapeCollection SolidCollision in Screens\GameScreen (Screen) because properties on the object prevent it
+            Armor_Piercing_roundList = new FlatRedBall.Math.PositionedObjectList<ArtyParty.Entities.Projectiles.Armor_Piercing_round>();
+            Armor_Piercing_roundList.Name = "Armor_Piercing_roundList";
         }
         public override void Initialize (bool addToManagers) 
         {
@@ -41,6 +44,7 @@ namespace ArtyParty.Screens
             PlayerInstance = new ArtyParty.Entities.Player(ContentManagerName, false);
             PlayerInstance.Name = "PlayerInstance";
             PlayerInstance.CreationSource = "Glue";
+            Armor_Piercing_roundList.Clear();
                 {
         var temp = new FlatRedBall.Math.Collision.DelegateCollisionRelationship<ArtyParty.Entities.Player, FlatRedBall.TileCollisions.TileShapeCollection>(PlayerInstance, SolidCollision);
         var isCloud = false;
@@ -76,6 +80,8 @@ namespace ArtyParty.Screens
         public override void AddToManagers () 
         {
             GameScreenGum.AddToManagers();FlatRedBall.FlatRedBallServices.GraphicsOptions.SizeOrOrientationChanged += RefreshLayoutInternal;
+            Factories.Armor_Piercing_roundFactory.Initialize(ContentManagerName);
+            Factories.Armor_Piercing_roundFactory.AddList(Armor_Piercing_roundList);
             FlatRedBall.SpriteManager.AddPositionedObject(CameraControllingEntityInstance); CameraControllingEntityInstance.Activity();
             PlayerInstance.AddToManagers(mLayer);
             FlatRedBall.TileEntities.TileEntityInstantiator.CreateEntitiesFrom(Map);
@@ -91,6 +97,14 @@ namespace ArtyParty.Screens
                 
                 CameraControllingEntityInstance.Activity();
                 PlayerInstance.Activity();
+                for (int i = Armor_Piercing_roundList.Count - 1; i > -1; i--)
+                {
+                    if (i < Armor_Piercing_roundList.Count)
+                    {
+                        // We do the extra if-check because activity could destroy any number of entities
+                        Armor_Piercing_roundList[i].Activity();
+                    }
+                }
             }
             else
             {
@@ -104,9 +118,11 @@ namespace ArtyParty.Screens
         public override void Destroy () 
         {
             base.Destroy();
+            Factories.Armor_Piercing_roundFactory.Destroy();
             GameScreenGum.RemoveFromManagers();FlatRedBall.FlatRedBallServices.GraphicsOptions.SizeOrOrientationChanged -= RefreshLayoutInternal;
             GameScreenGum = null;
             
+            Armor_Piercing_roundList.MakeOneWay();
             if (CameraControllingEntityInstance != null)
             {
                 FlatRedBall.SpriteManager.RemovePositionedObject(CameraControllingEntityInstance);;
@@ -116,6 +132,11 @@ namespace ArtyParty.Screens
                 PlayerInstance.Destroy();
                 PlayerInstance.Detach();
             }
+            for (int i = Armor_Piercing_roundList.Count - 1; i > -1; i--)
+            {
+                Armor_Piercing_roundList[i].Destroy();
+            }
+            Armor_Piercing_roundList.MakeTwoWay();
             FlatRedBall.Math.Collision.CollisionManager.Self.Relationships.Clear();
             CustomDestroy();
         }
@@ -161,6 +182,10 @@ namespace ArtyParty.Screens
                 FlatRedBall.SpriteManager.RemovePositionedObject(CameraControllingEntityInstance);;
             }
             PlayerInstance.RemoveFromManagers();
+            for (int i = Armor_Piercing_roundList.Count - 1; i > -1; i--)
+            {
+                Armor_Piercing_roundList[i].Destroy();
+            }
         }
         public virtual void AssignCustomVariables (bool callOnContainedElements) 
         {
@@ -201,6 +226,10 @@ namespace ArtyParty.Screens
             {
             }
             PlayerInstance.ConvertToManuallyUpdated();
+            for (int i = 0; i < Armor_Piercing_roundList.Count; i++)
+            {
+                Armor_Piercing_roundList[i].ConvertToManuallyUpdated();
+            }
         }
         public static void LoadStaticContent (string contentManagerName) 
         {

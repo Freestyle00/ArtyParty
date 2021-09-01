@@ -66,6 +66,7 @@ namespace ArtyParty.Screens
             Level1Map.Destroy();
             Level1Map = null;
             
+            Armor_Piercing_roundList.MakeOneWay();
             if (Map != null)
             {
                 Map.Destroy();
@@ -74,6 +75,7 @@ namespace ArtyParty.Screens
             {
                 SolidCollision.Visible = false;
             }
+            Armor_Piercing_roundList.MakeTwoWay();
             FlatRedBall.Math.Collision.CollisionManager.Self.Relationships.Clear();
             CustomDestroy();
         }

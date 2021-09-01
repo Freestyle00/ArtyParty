@@ -61,6 +61,11 @@
     <Compile Include="Entities\Player.Generated.cs">
       <DependentUpon>Player.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Projectiles\Armor_Piercing_round.cs" />
+    <Compile Include="Entities\Projectiles\Armor_Piercing_round.Generated.cs">
+      <DependentUpon>Armor_Piercing_round.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factories\Armor_Piercing_roundFactory.Generated.cs" />
     <Compile Include="Factories\EnemyFactory.Generated.cs" />
     <Compile Include="FileAliases.Generated.cs" />
     <Compile Include="Forms\Screens\GameScreenGumForms.cs" />
@@ -313,6 +318,10 @@
       <Name>PlatformerValuesStatic</Name>
     </None>
     <None Include="content\entities\player\platformervaluesstatic.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>PlatformerValuesStatic</Name>
+    </None>
+    <None Include="content\entities\projectiles\armor_piercing_round\platformervaluesstatic.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>PlatformerValuesStatic</Name>
     </None>
