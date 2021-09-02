@@ -5,4 +5,9 @@
     <property name="AirMovement" type="ArtyParty.DataTypes.PlatformerValues" default="Air in PlatformerValuesStatic.csv" />
     <property name="AfterDoubleJump" type="ArtyParty.DataTypes.PlatformerValues" />
   </objecttype>
+  <objecttype name="Armor_Piercing_round">
+    <property name="GroundMovement" type="ArtyParty.DataTypes.PlatformerValues" default="Ground in PlatformerValuesStatic.csv" />
+    <property name="AirMovement" type="ArtyParty.DataTypes.PlatformerValues" default="Air in PlatformerValuesStatic.csv" />
+    <property name="AfterDoubleJump" type="ArtyParty.DataTypes.PlatformerValues" />
+  </objecttype>
 </objecttypes>

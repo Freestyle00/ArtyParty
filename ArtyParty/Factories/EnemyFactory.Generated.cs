@@ -9,17 +9,22 @@ namespace ArtyParty.Factories
     public class EnemyFactory : IEntityFactory
     {
         public static FlatRedBall.Math.Axis? SortAxis { get; set;}
-        public static Enemy CreateNew (float x = 0, float y = 0) 
+        public static Enemy CreateNew (float x = 0, float y = 0, float z = 0) 
         {
-            return CreateNew(null, x, y);
+            return CreateNew(null, x, y, z);
         }
-        public static Enemy CreateNew (Layer layer, float x = 0, float y = 0) 
+        public static Enemy CreateNew (Microsoft.Xna.Framework.Vector3 position) 
+        {
+            return CreateNew(null, position.X, position.Y, position.Z);
+        }
+        public static Enemy CreateNew (Layer layer, float x = 0, float y = 0, float z = 0) 
         {
             Enemy instance = null;
             instance = new Enemy(mContentManagerName ?? FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, false);
             instance.AddToManagers(layer);
             instance.X = x;
             instance.Y = y;
+            instance.Z = z;
             foreach (var list in ListsToAddTo)
             {
                 if (SortAxis == FlatRedBall.Math.Axis.X && list is PositionedObjectList<Enemy>)
@@ -113,6 +118,10 @@ namespace ArtyParty.Factories
             object IEntityFactory.CreateNew (float x = 0, float y = 0) 
             {
                 return EnemyFactory.CreateNew(x, y);
+            }
+            object IEntityFactory.CreateNew (Microsoft.Xna.Framework.Vector3 position) 
+            {
+                return EnemyFactory.CreateNew(position);
             }
             object IEntityFactory.CreateNew (Layer layer) 
             {

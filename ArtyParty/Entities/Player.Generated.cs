@@ -534,7 +534,7 @@ namespace ArtyParty.Entities
             Turret.IgnoreParentPosition = false;
             Turret.ParentRotationChangesPosition = false;
             Turret.ParentRotationChangesRotation = false;
-            FlatRedBall.Math.Geometry.Point[] TurretPoints = new FlatRedBall.Math.Geometry.Point[] {new FlatRedBall.Math.Geometry.Point(0, 0), new FlatRedBall.Math.Geometry.Point(40, 0), new FlatRedBall.Math.Geometry.Point(40, 3), new FlatRedBall.Math.Geometry.Point(0, 3), new FlatRedBall.Math.Geometry.Point(0, 0) };
+            FlatRedBall.Math.Geometry.Point[] TurretPoints = new FlatRedBall.Math.Geometry.Point[] {new FlatRedBall.Math.Geometry.Point(0, 0), new FlatRedBall.Math.Geometry.Point(40, 0), new FlatRedBall.Math.Geometry.Point(40, 1.5), new FlatRedBall.Math.Geometry.Point(40, 3), new FlatRedBall.Math.Geometry.Point(0, 3), new FlatRedBall.Math.Geometry.Point(0, 0) };
             Turret.Points = TurretPoints;
             if (mMainTankBody.Parent == null)
             {

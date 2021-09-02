@@ -164,3 +164,4 @@ C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\bin\DesktopGL\x
 C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\bin\DesktopGL\x86\Debug\GumCoreXnaPc.pdb
 C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\bin\DesktopGL\x86\Debug\StateInterpolation.pdb
 c:\users\nick_\documents\flatredballprojects\artyparty\artyparty\bin\x86\Debug\content\entities\projectiles\armor_piercing_round\platformervaluesstatic.csv
+C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\bin\DesktopGL\x86\Debug\content\entities\projectiles\armor_piercing_round\platformervaluesstatic.csv

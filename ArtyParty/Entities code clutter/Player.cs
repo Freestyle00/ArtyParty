@@ -18,6 +18,7 @@ namespace ArtyParty.Entities
 		{
 			this.HorizontalInput = InputManager.Keyboard.Get1DInput(Keys.Left, Keys.Right).Or(InputManager.Keyboard.Get1DInput(Keys.A, Keys.D));
 			this.VerticalInput   = InputManager.Keyboard.Get1DInput(Keys.Down, Keys.Up)   .Or(InputManager.Keyboard.Get1DInput(Keys.S, Keys.W));
+			this.JumpInput		 = InputManager.Keyboard.GetKey(Keys.None);
 		}
 		void TurretMoving()
 		{
@@ -29,6 +30,15 @@ namespace ArtyParty.Entities
 			else if ((VerticalInput.Value < 0 && InputManager.Keyboard.KeyDown(Keys.LeftControl)) && this.Turret.RelativeRotationZ > LOWER_MAXIMUM_TURRET_ROTATION_POINT) Turret.RelativeRotationZVelocity = -FASTER_TURRET_SPEED;
 			else if (VerticalInput.Value < 0 && this.Turret.RelativeRotationZ > LOWER_MAXIMUM_TURRET_ROTATION_POINT) Turret.RelativeRotationZVelocity = -NORMAL_TURRET_SPEED;
 			else Turret.RelativeRotationZVelocity = 0;
+		}
+		void Shooting()
+		{
+			if (InputManager.Keyboard.KeyPushed(Keys.Space))
+			{
+				var position = Turret.AbsolutePointPosition(2);
+				var bullet = Factories.Armor_Piercing_roundFactory.CreateNew(position);
+				bullet.Z = Turret.RelativeRotationZ;
+			}
 		}
 	}
 }

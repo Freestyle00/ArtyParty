@@ -468,19 +468,19 @@ namespace ArtyParty.Entities.Projectiles
             }
             if (PolygonInstance.Parent == null)
             {
-                PolygonInstance.X = 16f;
+                PolygonInstance.X = 0f;
             }
             else
             {
-                PolygonInstance.RelativeX = 16f;
+                PolygonInstance.RelativeX = 0f;
             }
             if (PolygonInstance.Parent == null)
             {
-                PolygonInstance.Y = 16f;
+                PolygonInstance.Y = 0f;
             }
             else
             {
-                PolygonInstance.RelativeY = 16f;
+                PolygonInstance.RelativeY = 0f;
             }
             FlatRedBall.Math.Geometry.Point[] PolygonInstancePoints = new FlatRedBall.Math.Geometry.Point[] {new FlatRedBall.Math.Geometry.Point(0, 0), new FlatRedBall.Math.Geometry.Point(2, 0), new FlatRedBall.Math.Geometry.Point(2, 3), new FlatRedBall.Math.Geometry.Point(1, 5), new FlatRedBall.Math.Geometry.Point(0, 3), new FlatRedBall.Math.Geometry.Point(0, 0) };
             PolygonInstance.Points = PolygonInstancePoints;
@@ -529,19 +529,19 @@ namespace ArtyParty.Entities.Projectiles
             SpriteInstance.TextureScale = 1f;
             if (PolygonInstance.Parent == null)
             {
-                PolygonInstance.X = 16f;
+                PolygonInstance.X = 0f;
             }
             else
             {
-                PolygonInstance.RelativeX = 16f;
+                PolygonInstance.RelativeX = 0f;
             }
             if (PolygonInstance.Parent == null)
             {
-                PolygonInstance.Y = 16f;
+                PolygonInstance.Y = 0f;
             }
             else
             {
-                PolygonInstance.RelativeY = 16f;
+                PolygonInstance.RelativeY = 0f;
             }
             GroundMovement = Entities.Projectiles.Armor_Piercing_round.PlatformerValuesStatic["Ground"];
             AirMovement = Entities.Projectiles.Armor_Piercing_round.PlatformerValuesStatic["Air"];

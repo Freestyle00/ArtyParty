@@ -27,7 +27,7 @@ namespace ArtyParty.Entities
         private void CustomActivity()
         {
             TurretMoving();
-
+            Shooting();
         }
 
         private void CustomDestroy()

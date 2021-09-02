@@ -122,9 +122,9 @@ namespace GlueControl
 
             ownerType = typeof(CommandReceiver).Assembly.GetType(ownerTypeName);
             currentScreen = ScreenManager.CurrentScreen;
-            var currentScreenType = currentScreen.GetType();
+            var currentScreenType = currentScreen?.GetType();
 
-            return currentScreenType == ownerType || ownerType?.IsAssignableFrom(currentScreenType) == true;
+            return currentScreenType == ownerType || (currentScreenType != null && ownerType?.IsAssignableFrom(currentScreenType) == true);
         }
 
         // todo - move this to some type manager
@@ -533,7 +533,7 @@ namespace GlueControl
 
         #endregion
 
-        #region Edit vs Play
+        #region EditMode vs Play
 
         private static void HandleDto(SetEditMode setEditMode)
         {
@@ -549,6 +549,15 @@ namespace GlueControl
                 if (value)
                 {
                     FlatRedBallServices.Game.IsMouseVisible = true;
+                    // If in edit mode, polygons can get sent over from Glue
+                    // without points. We don't want to crash the game when this
+                    // happens.
+                    // Should we preserve the old value and reset it back? This adds
+                    // complexity, and I don't know if there's any benefit because this
+                    // property is usually false to catch coding errors, but code can't be
+                    // added without restarting the app, which would then reset this value back
+                    // to false. Let's keep it simple.
+                    Polygon.TolerateEmptyPolygons = true;
                 }
 
                 FlatRedBall.TileEntities.TileEntityInstantiator.CreationFunction =
@@ -625,6 +634,12 @@ namespace GlueControl
                 }
 
                 CameraLogic.UpdateZoomLevelToCamera();
+
+                if (FlatRedBall.Screens.ScreenManager.IsInEditMode)
+                {
+                    Camera.Main.Velocity = Vector3.Zero;
+                    Camera.Main.Acceleration = Vector3.Zero;
+                }
 
                 FlatRedBall.Screens.ScreenManager.ScreenLoaded -= AfterInitializeLogic;
 

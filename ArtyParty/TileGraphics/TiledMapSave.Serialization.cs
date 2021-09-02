@@ -793,6 +793,9 @@ namespace TMXGlueLib
     /// <remarks/>
     public partial class mapObjectgroupObject
     {
+        [XmlAttribute("visible")]
+        public int Visible { get; set; } = 1;
+
         private mapObjectgroupObjectEllipse ellipseField = null;
 
         private mapObjectgroupObjectPolygon[] polygonField;
@@ -959,13 +962,16 @@ namespace TMXGlueLib
     [XmlType(AnonymousType = true)]
     public partial class mapObjectgroupObjectEllipse
     {
-        
+        [XmlAttribute("visible")]
+        public int Visible { get; set; } = 1;
     }
 
     /// <remarks/>
     [XmlType(AnonymousType = true)]
     public partial class mapObjectgroupObjectPolygon
     {
+        [XmlAttribute("visible")]
+        public int Visible { get; set; } = 1;
 
         private string pointsField;
 
@@ -990,6 +996,8 @@ namespace TMXGlueLib
     [XmlType(AnonymousType = true)]
     public partial class mapObjectgroupObjectPolyline
     {
+        [XmlAttribute("visible")]
+        public int Visible { get; set; } = 1;
 
         private string pointsField;
 

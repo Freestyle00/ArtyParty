@@ -690,6 +690,10 @@
               </Vector2>
               <Vector2>
                 <X>40</X>
+                <Y>1.5</Y>
+              </Vector2>
+              <Vector2>
+                <X>40</X>
                 <Y>3</Y>
               </Vector2>
               <Vector2>
@@ -1024,13 +1028,13 @@
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
-            <Member>Y</Member>
-            <ValueAsFloat>16</ValueAsFloat>
+            <Member>X</Member>
+            <ValueAsFloat>0</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>16</ValueAsFloat>
+            <Member>Y</Member>
+            <ValueAsFloat>0</ValueAsFloat>
           </CustomProperty>
           <Properties>
             <PropertySave>

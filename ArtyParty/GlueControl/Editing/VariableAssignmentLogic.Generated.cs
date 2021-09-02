@@ -63,6 +63,9 @@ namespace GlueControl.Editing
                     }
                     else
                     {
+                        var splitVariable = data.VariableName.Split('.');
+                        var variableName = splitVariable.Last();
+
                         // Loop through all objects in the SpriteManager. If we are viewing a single 
                         // entity in the entity screen, then this will only loop 1 time and will set 1 value.
                         // If we are in a screen where multiple instances of the entity are around, then we set the 
@@ -71,7 +74,11 @@ namespace GlueControl.Editing
                         {
                             if (CommandReceiver.DoTypesMatch(item, data.InstanceOwnerGameType, ownerType))
                             {
-                                screen.ApplyVariable(variableNameOnObjectInInstance, variableValue, item);
+                                //var targetInstance = GetTargetInstance(data, ref variableValue, screen);
+                                var targetInstance = screen.GetInstance(splitVariable[1] + ".Whatever", item);
+                                SetValueOnObjectInScreen(variableValue, response, screen, splitVariable[1], variableName, targetInstance as INameable);
+                                //SetValueOnObjectInScreen(variableNameOnObjectInInstance, variableValue, item);
+                                //screen.ApplyVariable(variableNameOnObjectInInstance, variableValue, item);
                             }
                         }
                         response.WasVariableAssigned = true;
@@ -113,57 +120,7 @@ namespace GlueControl.Editing
 
                 var targetInstance = GetTargetInstance(data, ref variableValue, screen);
 
-                var didAttemptToAssign = false;
-                if (targetInstance is CollisionRelationship && variableName == "Entire CollisionRelationship")
-                {
-                    response.WasVariableAssigned = TryAssignCollisionRelationship(splitVariable[1],
-                        JsonConvert.DeserializeObject<Models.NamedObjectSave>(data.VariableValue));
-                    didAttemptToAssign = true;
-                }
-
-                if (!didAttemptToAssign && targetInstance is FlatRedBall.TileCollisions.TileShapeCollection && variableName == "Entire TileShapeCollection")
-                {
-                    FlatRedBall.TileCollisions.TileShapeCollection foundTileShapeCollection;
-                    response.WasVariableAssigned = TryAssignTileShapeCollection(splitVariable[1],
-                        JsonConvert.DeserializeObject<Models.NamedObjectSave>(data.VariableValue), out foundTileShapeCollection);
-
-                    if (response.WasVariableAssigned)
-                    {
-                        if (EditingManager.Self.CurrentNamedObjectSave?.InstanceName == foundTileShapeCollection?.Name)
-                        {
-                            var nosToReselect = EditingManager.Self.CurrentNamedObjectSave;
-                            // force re-selection to update visibility:
-                            EditingManager.Self.Select(null);
-                            EditingManager.Self.Select(nosToReselect);
-                        }
-                    }
-                    didAttemptToAssign = true;
-                }
-
-                if (!didAttemptToAssign && targetInstance is IList)
-                {
-                    didAttemptToAssign = variableName == "SortAxis" ||
-                        variableName == "IsSortListEveryFrameChecked" ||
-                        variableName == "PartitionWidthHeight";
-
-                    response.WasVariableAssigned = didAttemptToAssign;
-                }
-
-
-                if (!didAttemptToAssign)
-                {
-                    targetInstance = targetInstance ?? screen.GetInstanceRecursive(data.VariableName) as INameable;
-                    if (targetInstance == null)
-                    {
-                        response.WasVariableAssigned = screen.ApplyVariable(data.VariableName, variableValue);
-                    }
-                    else
-                    {
-                        variableName = TryConvertVariableNameToExposedVariableName(variableName, targetInstance);
-                        response.WasVariableAssigned = screen.ApplyVariable(variableName, variableValue, targetInstance);
-                    }
-                    didAttemptToAssign = true;
-                }
+                SetValueOnObjectInScreen(variableValue, response, screen, splitVariable[1], variableName, targetInstance);
 
             }
             catch (Exception e)
@@ -174,6 +131,171 @@ namespace GlueControl.Editing
 
 
             return variableValue;
+        }
+
+        private static void SetValueOnObjectInScreen(object variableValue, GlueVariableSetDataResponse response, FlatRedBall.Screens.Screen screen, string instanceName, string variableName, INameable targetInstance)
+        {
+            var didAttemptToAssign = false;
+
+            #region "Entire CollisionRelationship" on CollisionRelationship
+
+            if (targetInstance is CollisionRelationship && variableName == "Entire CollisionRelationship")
+            {
+                response.WasVariableAssigned = TryAssignCollisionRelationship(instanceName,
+                    JsonConvert.DeserializeObject<Models.NamedObjectSave>(variableValue as string));
+                didAttemptToAssign = true;
+            }
+
+            #endregion
+
+            #region "Entire TileShapeCollection" on TileShapeCollection 
+
+            if (!didAttemptToAssign && targetInstance is FlatRedBall.TileCollisions.TileShapeCollection && variableName == "Entire TileShapeCollection")
+            {
+                FlatRedBall.TileCollisions.TileShapeCollection foundTileShapeCollection;
+                response.WasVariableAssigned = TryAssignTileShapeCollection(instanceName,
+                    JsonConvert.DeserializeObject<Models.NamedObjectSave>(variableValue as string), out foundTileShapeCollection);
+
+                if (response.WasVariableAssigned)
+                {
+                    if (EditingManager.Self.CurrentNamedObjectSave?.InstanceName == foundTileShapeCollection?.Name)
+                    {
+                        var nosToReselect = EditingManager.Self.CurrentNamedObjectSave;
+                        // force re-selection to update visibility:
+                        EditingManager.Self.Select(null);
+                        EditingManager.Self.Select(nosToReselect);
+                    }
+                }
+                didAttemptToAssign = true;
+            }
+
+            #endregion
+
+            #region IList variables
+
+            if (!didAttemptToAssign && targetInstance is IList)
+            {
+                didAttemptToAssign = variableName == "SortAxis" ||
+                    variableName == "IsSortListEveryFrameChecked" ||
+                    variableName == "PartitionWidthHeight";
+
+                response.WasVariableAssigned = didAttemptToAssign;
+            }
+
+            #endregion
+
+            #region IncludeInICollidable on Shape
+
+            if (!didAttemptToAssign && variableName == "IncludeInICollidable")
+            {
+                ShapeCollection shapeCollection = null;
+                ICollidable parent = null;
+                if (targetInstance is AxisAlignedRectangle rectangle)
+                {
+                    parent = rectangle.Parent as ICollidable;
+                    shapeCollection = parent?.Collision;
+
+                    if (shapeCollection != null)
+                    {
+                        if (variableValue as bool? == true)
+                        {
+                            if (shapeCollection.AxisAlignedRectangles.Contains(rectangle) == false)
+                            {
+                                shapeCollection.Add(rectangle);
+                            }
+                        }
+                        else
+                        {
+                            if (shapeCollection.AxisAlignedRectangles.Contains(rectangle))
+                            {
+                                shapeCollection.AxisAlignedRectangles.Remove(rectangle);
+                            }
+                        }
+                    }
+                    didAttemptToAssign = true;
+                    response.WasVariableAssigned = didAttemptToAssign;
+                }
+                else if (targetInstance is Circle circle)
+                {
+                    parent = circle.Parent as ICollidable;
+                    shapeCollection = parent?.Collision;
+                    if (shapeCollection != null)
+                    {
+                        if (variableValue as bool? == true)
+                        {
+                            if (shapeCollection.Circles.Contains(circle) == false)
+                            {
+                                shapeCollection.Add(circle);
+                            }
+                        }
+                        else
+                        {
+                            if (shapeCollection.Circles.Contains(circle))
+                            {
+                                shapeCollection.Circles.Remove(circle);
+                            }
+                        }
+                    }
+                    didAttemptToAssign = true;
+                    response.WasVariableAssigned = didAttemptToAssign;
+                }
+                else if (targetInstance is Polygon polygon)
+                {
+                    parent = polygon.Parent as ICollidable;
+                    shapeCollection = parent?.Collision;
+                    if (shapeCollection != null)
+                    {
+                        if (variableValue as bool? == true)
+                        {
+                            if (shapeCollection.Polygons.Contains(polygon) == false)
+                            {
+                                shapeCollection.Add(polygon);
+                            }
+                        }
+                        else
+                        {
+                            if (shapeCollection.Polygons.Contains(polygon))
+                            {
+                                shapeCollection.Polygons.Remove(polygon);
+                            }
+                        }
+                    }
+                    didAttemptToAssign = true;
+                    response.WasVariableAssigned = didAttemptToAssign;
+                }
+            }
+
+            #endregion
+
+            if (!didAttemptToAssign && variableName == "Points" && targetInstance is Polygon targetPolygon)
+            {
+                List<Point> points = variableValue as List<Point>;
+                if (variableValue is List<Microsoft.Xna.Framework.Vector2> asVectors)
+                {
+                    points = asVectors.Select(item => new Point(item.X, item.Y)).ToList();
+
+                }
+                if (points != null)
+                {
+                    targetPolygon.Points = points;
+                    didAttemptToAssign = true;
+                }
+            }
+
+            if (!didAttemptToAssign)
+            {
+                targetInstance = targetInstance ?? screen.GetInstanceRecursive(variableName) as INameable;
+                if (targetInstance == null)
+                {
+                    response.WasVariableAssigned = screen.ApplyVariable(variableName, variableValue);
+                }
+                else
+                {
+                    variableName = TryConvertVariableNameToExposedVariableName(variableName, targetInstance);
+                    response.WasVariableAssigned = screen.ApplyVariable(variableName, variableValue, targetInstance);
+                }
+                didAttemptToAssign = true;
+            }
         }
 
         private static string TryConvertVariableNameToExposedVariableName(string variableName, INameable targetInstance)

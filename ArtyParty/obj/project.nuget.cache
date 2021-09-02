@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JqblLeU2kg6wdegMsASTs3O/bbrtB+wAVSYbiZRga47YB9k7WC1ysvOskcT3OooQwAE9R5ZeLCppYbnKjvHh/A==",
+  "dgSpecHash": "QZR1GhDqJbiVnZAg+TeWB6k1WoIrzD9TvOYLnytrelkdpK6Dc25rdSHoWgqkSdLboQwkRs/pXGbk5CASrtdkzQ==",
   "success": true,
-  "projectFilePath": "c:\\users\\nick_\\documents\\flatredballprojects\\artyparty\\artyparty\\artyparty.csproj",
+  "projectFilePath": "C:\\Users\\Nick_\\Documents\\FlatRedBallProjects\\ArtyParty\\ArtyParty\\ArtyParty.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nick_\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
   ],

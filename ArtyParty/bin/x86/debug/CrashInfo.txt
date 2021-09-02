@@ -2,13 +2,13 @@ System.ArgumentNullException: Der Wert darf nicht NULL sein.
 Parametername: key
    bei System.Collections.Generic.Dictionary`2.FindEntry(TKey key)
    bei System.Collections.Generic.Dictionary`2.ContainsKey(TKey key)
-   bei GlueControl.InstanceLogic.CreateEntity(String entityNameGameType) in c:\users\nick_\documents\flatredballprojects\artyparty\artyparty\GlueControl\InstanceLogic.Generated.cs:Zeile 403.
-   bei GlueControl.Screens.EntityViewingScreen.AddToManagers() in c:\users\nick_\documents\flatredballprojects\artyparty\artyparty\GlueControl\Screens\EntityViewingScreen.Generated.cs:Zeile 43.
-   bei GlueControl.Screens.EntityViewingScreen.Initialize(Boolean addToManagers) in c:\users\nick_\documents\flatredballprojects\artyparty\artyparty\GlueControl\Screens\EntityViewingScreen.Generated.cs:Zeile 32.
+   bei GlueControl.InstanceLogic.CreateEntity(String entityNameGameType) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\InstanceLogic.Generated.cs:Zeile 403.
+   bei GlueControl.Screens.EntityViewingScreen.AddToManagers() in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\Screens\EntityViewingScreen.Generated.cs:Zeile 43.
+   bei GlueControl.Screens.EntityViewingScreen.Initialize(Boolean addToManagers) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\Screens\EntityViewingScreen.Generated.cs:Zeile 32.
    bei FlatRedBall.Screens.ScreenManager.LoadScreen(String screen) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Screens\ScreenManager.cs:Zeile 436.
    bei FlatRedBall.Screens.ScreenManager.Start(Type screenToStartWithType) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Screens\ScreenManager.cs:Zeile 341.
-   bei ArtyParty.Game1.Initialize() in c:\users\nick_\documents\flatredballprojects\artyparty\artyparty\Game1.cs:Zeile 88.
+   bei ArtyParty.Game1.Initialize() in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Game1.cs:Zeile 88.
    bei Microsoft.Xna.Framework.Game.DoInitialize()
    bei Microsoft.Xna.Framework.Game.Run(GameRunBehavior runBehavior)
    bei Microsoft.Xna.Framework.Game.Run()
-   bei ArtyParty.Program.Main() in c:\users\nick_\documents\flatredballprojects\artyparty\artyparty\Program.cs:Zeile 20.
+   bei ArtyParty.Program.Main() in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Program.cs:Zeile 20.

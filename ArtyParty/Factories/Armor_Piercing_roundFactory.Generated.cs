@@ -9,17 +9,22 @@ namespace ArtyParty.Factories
     public class Armor_Piercing_roundFactory : IEntityFactory
     {
         public static FlatRedBall.Math.Axis? SortAxis { get; set;}
-        public static Armor_Piercing_round CreateNew (float x = 0, float y = 0) 
+        public static Armor_Piercing_round CreateNew (float x = 0, float y = 0, float z = 0) 
         {
-            return CreateNew(null, x, y);
+            return CreateNew(null, x, y, z);
         }
-        public static Armor_Piercing_round CreateNew (Layer layer, float x = 0, float y = 0) 
+        public static Armor_Piercing_round CreateNew (Microsoft.Xna.Framework.Vector3 position) 
+        {
+            return CreateNew(null, position.X, position.Y, position.Z);
+        }
+        public static Armor_Piercing_round CreateNew (Layer layer, float x = 0, float y = 0, float z = 0) 
         {
             Armor_Piercing_round instance = null;
             instance = new Armor_Piercing_round(mContentManagerName ?? FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, false);
             instance.AddToManagers(layer);
             instance.X = x;
             instance.Y = y;
+            instance.Z = z;
             foreach (var list in ListsToAddTo)
             {
                 if (SortAxis == FlatRedBall.Math.Axis.X && list is PositionedObjectList<Armor_Piercing_round>)
@@ -113,6 +118,10 @@ namespace ArtyParty.Factories
             object IEntityFactory.CreateNew (float x = 0, float y = 0) 
             {
                 return Armor_Piercing_roundFactory.CreateNew(x, y);
+            }
+            object IEntityFactory.CreateNew (Microsoft.Xna.Framework.Vector3 position) 
+            {
+                return Armor_Piercing_roundFactory.CreateNew(position);
             }
             object IEntityFactory.CreateNew (Layer layer) 
             {
