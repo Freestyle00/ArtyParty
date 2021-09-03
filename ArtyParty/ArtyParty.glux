@@ -231,7 +231,7 @@
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile>PositionedObjectList (Generic)</SourceFile>
           <SourceClassType>FlatRedBall.Math.PositionedObjectList&lt;T&gt;</SourceClassType>
-          <SourceClassGenericType>Entities\Projectiles\Armor_Piercing_round</SourceClassGenericType>
+          <SourceClassGenericType>Entities\Armor_Piercing_round</SourceClassGenericType>
           <InstanceName>Armor_Piercing_roundList</InstanceName>
           <ExposedInDerived>true</ExposedInDerived>
           <AttachToContainer>true</AttachToContainer>
@@ -355,7 +355,7 @@
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile>PositionedObjectList (Generic)</SourceFile>
           <SourceClassType>FlatRedBall.Math.PositionedObjectList&lt;T&gt;</SourceClassType>
-          <SourceClassGenericType>Entities\Projectiles\Armor_Piercing_round</SourceClassGenericType>
+          <SourceClassGenericType>Entities\Armor_Piercing_round</SourceClassGenericType>
           <InstanceName>Armor_Piercing_roundList</InstanceName>
           <ExposedInDerived>true</ExposedInDerived>
           <AttachToContainer>true</AttachToContainer>
@@ -956,10 +956,6 @@
           <Name>ImplementsICollidable</Name>
           <ValueAsBool>true</ValueAsBool>
         </PropertySave>
-        <PropertySave>
-          <Name>IsPlatformer</Name>
-          <ValueAsBool>true</ValueAsBool>
-        </PropertySave>
       </Properties>
       <NamedObjects>
         <NamedObjectSave>
@@ -967,16 +963,6 @@
             <Type>float</Type>
             <Member>TextureScale</Member>
             <ValueAsFloat>1</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>-40</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Y</Member>
-            <ValueAsFloat>-8</ValueAsFloat>
           </CustomProperty>
           <Properties>
             <PropertySave>
@@ -1056,7 +1042,7 @@
           <IndependentOfCamera>false</IndependentOfCamera>
         </NamedObjectSave>
       </NamedObjects>
-      <Name>Entities\Projectiles\Armor_Piercing_round</Name>
+      <Name>Entities\Armor_Piercing_round</Name>
       <CustomClassesForExport />
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
       <CreatedByOtherEntities>true</CreatedByOtherEntities>

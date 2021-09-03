@@ -1,4 +1,5 @@
 ﻿using FlatRedBall.Input;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace ArtyParty.Entities
 		const float LOWER_MAXIMUM_TURRET_ROTATION_POINT = 0.01745329f;
 		const float NORMAL_TURRET_SPEED = 0.2f;
 		const float FASTER_TURRET_SPEED = 0.4f;
+		const float TURRET_ROTATION_DIFFERENCE = 1.570796f;
 		void Inputcode()
 		{
 			this.HorizontalInput = InputManager.Keyboard.Get1DInput(Keys.Left, Keys.Right).Or(InputManager.Keyboard.Get1DInput(Keys.A, Keys.D));
@@ -37,7 +39,7 @@ namespace ArtyParty.Entities
 			{
 				var position = Turret.AbsolutePointPosition(2);
 				var bullet = Factories.Armor_Piercing_roundFactory.CreateNew(position);
-				bullet.Z = Turret.RelativeRotationZ;
+				bullet.__init__(Turret.RelativeRotationZ - TURRET_ROTATION_DIFFERENCE, position); 
 			}
 		}
 	}

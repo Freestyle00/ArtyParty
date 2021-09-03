@@ -22,7 +22,7 @@ namespace ArtyParty.Screens
         private FlatRedBall.Entities.CameraControllingEntity CameraControllingEntityInstance;
         private ArtyParty.Entities.Player PlayerInstance;
         private FlatRedBall.Math.Collision.DelegateCollisionRelationship<ArtyParty.Entities.Player, FlatRedBall.TileCollisions.TileShapeCollection> PlayerInstanceVsSolidCollision;
-        protected FlatRedBall.Math.PositionedObjectList<ArtyParty.Entities.Projectiles.Armor_Piercing_round> Armor_Piercing_roundList;
+        protected FlatRedBall.Math.PositionedObjectList<ArtyParty.Entities.Armor_Piercing_round> Armor_Piercing_roundList;
         ArtyParty.FormsControls.Screens.GameScreenGumForms Forms;
         ArtyParty.GumRuntimes.GameScreenGumRuntime GumScreen;
         public GameScreen () 
@@ -30,7 +30,7 @@ namespace ArtyParty.Screens
         {
             // Not instantiating for FlatRedBall.TileGraphics.LayeredTileMap Map in Screens\GameScreen (Screen) because properties on the object prevent it
             // Not instantiating for FlatRedBall.TileCollisions.TileShapeCollection SolidCollision in Screens\GameScreen (Screen) because properties on the object prevent it
-            Armor_Piercing_roundList = new FlatRedBall.Math.PositionedObjectList<ArtyParty.Entities.Projectiles.Armor_Piercing_round>();
+            Armor_Piercing_roundList = new FlatRedBall.Math.PositionedObjectList<ArtyParty.Entities.Armor_Piercing_round>();
             Armor_Piercing_roundList.Name = "Armor_Piercing_roundList";
         }
         public override void Initialize (bool addToManagers) 

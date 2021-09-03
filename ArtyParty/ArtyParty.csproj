@@ -52,7 +52,12 @@
     <Compile Include="DataTypes\PlatformerValues.Generated.cs" />
     <Compile Include="DataTypes\TileMapInfo.Generated.cs" />
     <Compile Include="DataTypes\TopDownValues.Generated.cs" />
+    <Compile Include="Entities code clutter\Armor_Piercing_round.cs" />
     <Compile Include="Entities code clutter\Player.cs" />
+    <Compile Include="Entities\Armor_Piercing_round.cs" />
+    <Compile Include="Entities\Armor_Piercing_round.Generated.cs">
+      <DependentUpon>Armor_Piercing_round.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Enemy.cs" />
     <Compile Include="Entities\Enemy.Generated.cs">
       <DependentUpon>Enemy.cs</DependentUpon>
@@ -60,10 +65,6 @@
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\Player.Generated.cs">
       <DependentUpon>Player.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Entities\Projectiles\Armor_Piercing_round.cs" />
-    <Compile Include="Entities\Projectiles\Armor_Piercing_round.Generated.cs">
-      <DependentUpon>Armor_Piercing_round.cs</DependentUpon>
     </Compile>
     <Compile Include="Factories\Armor_Piercing_roundFactory.Generated.cs" />
     <Compile Include="Factories\EnemyFactory.Generated.cs" />

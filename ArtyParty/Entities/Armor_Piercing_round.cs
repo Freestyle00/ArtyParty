@@ -8,11 +8,13 @@ using FlatRedBall.AI.Pathfinding;
 using FlatRedBall.Graphics.Animation;
 using FlatRedBall.Graphics.Particle;
 using FlatRedBall.Math.Geometry;
+using Microsoft.Xna.Framework.Input;
 
-namespace ArtyParty.Entities.Projectiles
+namespace ArtyParty.Entities
 {
     public partial class Armor_Piercing_round
     {
+
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
         /// This method is called when the Entity is added to managers. Entities which are instantiated but not
@@ -20,13 +22,13 @@ namespace ArtyParty.Entities.Projectiles
         /// </summary>
         private void CustomInitialize()
         {
-
-
+            
+            
         }
 
         private void CustomActivity()
         {
-
+            Bullet_Rotation();
 
         }
 
