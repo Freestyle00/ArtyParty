@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Text;
 using ArtyParty.DataTypes;
 using FlatRedBall.IO.Csv;
-namespace ArtyParty.Entities
+namespace ArtyParty.Entities.Projectiles
 {
     public partial class Armor_Piercing_round : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable, FlatRedBall.Performance.IPoolable, FlatRedBall.Math.Geometry.ICollidable
     {
@@ -115,7 +115,7 @@ namespace ArtyParty.Entities
                 return mGeneratedCollision;
             }
         }
-        public string EditModeType { get; set; } = "ArtyParty.Entities.Armor_Piercing_round";
+        public string EditModeType { get; set; } = "ArtyParty.Entities.Projectiles.Armor_Piercing_round";
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         public Armor_Piercing_round () 
         	: this(FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, true)
@@ -264,8 +264,8 @@ namespace ArtyParty.Entities
             {
                 PolygonInstance.RelativeY = 0f;
             }
-            GroundMovement = Entities.Armor_Piercing_round.PlatformerValuesStatic["Ground"];
-            AirMovement = Entities.Armor_Piercing_round.PlatformerValuesStatic["Air"];
+            GroundMovement = Entities.Projectiles.Armor_Piercing_round.PlatformerValuesStatic["Ground"];
+            AirMovement = Entities.Projectiles.Armor_Piercing_round.PlatformerValuesStatic["Air"];
         }
         public virtual void ConvertToManuallyUpdated () 
         {

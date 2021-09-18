@@ -231,15 +231,71 @@
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile>PositionedObjectList (Generic)</SourceFile>
           <SourceClassType>FlatRedBall.Math.PositionedObjectList&lt;T&gt;</SourceClassType>
-          <SourceClassGenericType>Entities\Armor_Piercing_round</SourceClassGenericType>
+          <SourceClassGenericType>Entities\Projectiles\Armor_Piercing_round</SourceClassGenericType>
           <InstanceName>Armor_Piercing_roundList</InstanceName>
           <ExposedInDerived>true</ExposedInDerived>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>false</IndependentOfCamera>
         </NamedObjectSave>
+        <NamedObjectSave>
+          <Properties>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+            <PropertySave>
+              <Name>SourceType</Name>
+              <ValueAsObject xsi:type="SourceType">FlatRedBallType</ValueAsObject>
+            </PropertySave>
+            <PropertySave>
+              <Name>IsAutoNameEnabled</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+            <PropertySave>
+              <Name>FirstCollisionName</Name>
+              <ValueAsString>PlayerInstance</ValueAsString>
+            </PropertySave>
+            <PropertySave>
+              <Name>SecondCollisionName</Name>
+              <ValueAsString>Armor_Piercing_roundList</ValueAsString>
+            </PropertySave>
+            <PropertySave>
+              <Name>FirstCollisionMass</Name>
+              <ValueAsFloat>1</ValueAsFloat>
+            </PropertySave>
+            <PropertySave>
+              <Name>SecondCollisionMass</Name>
+              <ValueAsFloat>1</ValueAsFloat>
+            </PropertySave>
+            <PropertySave>
+              <Name>CollisionElasticity</Name>
+              <ValueAsFloat>1</ValueAsFloat>
+            </PropertySave>
+            <PropertySave>
+              <Name>IsCollisionActive</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile>FlatRedBall.Math.Collision.PositionedObjectVsListRelationship&lt;ArtyParty.Entities.Player, Entities.Armor_Piercing_round&gt;</SourceFile>
+          <SourceClassType>FlatRedBall.Math.Collision.PositionedObjectVsListRelationship&lt;ArtyParty.Entities.Player, Entities.Armor_Piercing_round&gt;</SourceClassType>
+          <InstanceName>PlayerInstanceVsArmor_Piercing_roundList</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>false</IndependentOfCamera>
+        </NamedObjectSave>
       </NamedObjects>
       <Name>Screens\GameScreen</Name>
+      <Events>
+        <EventResponseSave>
+          <EventName>PlayerInstanceVsArmor_Piercing_roundListCollisionOccurred</EventName>
+          <SourceObject>PlayerInstanceVsArmor_Piercing_roundList</SourceObject>
+          <SourceObjectEvent>CollisionOccurred</SourceObjectEvent>
+          <BeforeOrAfter>Before</BeforeOrAfter>
+          <DelegateType />
+        </EventResponseSave>
+      </Events>
       <CustomClassesForExport />
     </ScreenSave>
     <ScreenSave>
@@ -351,11 +407,23 @@
               <Name>SourceType</Name>
               <ValueAsObject xsi:type="SourceType">FlatRedBallType</ValueAsObject>
             </PropertySave>
+            <PropertySave>
+              <Name>SortAxis</Name>
+              <ValueAsInt>0</ValueAsInt>
+            </PropertySave>
+            <PropertySave>
+              <Name>PartitionWidthHeight</Name>
+              <ValueAsFloat>32</ValueAsFloat>
+            </PropertySave>
+            <PropertySave>
+              <Name>IsSortListEveryFrameChecked</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
           </Properties>
           <SourceType>FlatRedBallType</SourceType>
           <SourceFile>PositionedObjectList (Generic)</SourceFile>
           <SourceClassType>FlatRedBall.Math.PositionedObjectList&lt;T&gt;</SourceClassType>
-          <SourceClassGenericType>Entities\Armor_Piercing_round</SourceClassGenericType>
+          <SourceClassGenericType>Entities\Projectiles\Armor_Piercing_round</SourceClassGenericType>
           <InstanceName>Armor_Piercing_roundList</InstanceName>
           <ExposedInDerived>true</ExposedInDerived>
           <AttachToContainer>true</AttachToContainer>
@@ -1042,7 +1110,7 @@
           <IndependentOfCamera>false</IndependentOfCamera>
         </NamedObjectSave>
       </NamedObjects>
-      <Name>Entities\Armor_Piercing_round</Name>
+      <Name>Entities\Projectiles\Armor_Piercing_round</Name>
       <CustomClassesForExport />
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
       <CreatedByOtherEntities>true</CreatedByOtherEntities>

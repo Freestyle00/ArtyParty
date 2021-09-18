@@ -22,7 +22,9 @@ namespace ArtyParty.Screens
         private FlatRedBall.Entities.CameraControllingEntity CameraControllingEntityInstance;
         private ArtyParty.Entities.Player PlayerInstance;
         private FlatRedBall.Math.Collision.DelegateCollisionRelationship<ArtyParty.Entities.Player, FlatRedBall.TileCollisions.TileShapeCollection> PlayerInstanceVsSolidCollision;
-        protected FlatRedBall.Math.PositionedObjectList<ArtyParty.Entities.Armor_Piercing_round> Armor_Piercing_roundList;
+        protected FlatRedBall.Math.PositionedObjectList<ArtyParty.Entities.Projectiles.Armor_Piercing_round> Armor_Piercing_roundList;
+        private FlatRedBall.Math.Collision.PositionedObjectVsListRelationship<ArtyParty.Entities.Player, Entities.Armor_Piercing_round> PlayerInstanceVsArmor_Piercing_roundList;
+        public event EventHandler PlayerInstanceVsArmor_Piercing_roundListCollisionOccurred;
         ArtyParty.FormsControls.Screens.GameScreenGumForms Forms;
         ArtyParty.GumRuntimes.GameScreenGumRuntime GumScreen;
         public GameScreen () 
@@ -30,7 +32,7 @@ namespace ArtyParty.Screens
         {
             // Not instantiating for FlatRedBall.TileGraphics.LayeredTileMap Map in Screens\GameScreen (Screen) because properties on the object prevent it
             // Not instantiating for FlatRedBall.TileCollisions.TileShapeCollection SolidCollision in Screens\GameScreen (Screen) because properties on the object prevent it
-            Armor_Piercing_roundList = new FlatRedBall.Math.PositionedObjectList<ArtyParty.Entities.Armor_Piercing_round>();
+            Armor_Piercing_roundList = new FlatRedBall.Math.PositionedObjectList<ArtyParty.Entities.Projectiles.Armor_Piercing_round>();
             Armor_Piercing_roundList.Name = "Armor_Piercing_roundList";
         }
         public override void Initialize (bool addToManagers) 
@@ -58,6 +60,8 @@ namespace ArtyParty.Screens
     }
     PlayerInstanceVsSolidCollision.Name = "PlayerInstanceVsSolidCollision";
 
+            PlayerInstanceVsArmor_Piercing_roundList = new FlatRedBall.Math.Collision.PositionedObjectVsListRelationship<ArtyParty.Entities.Player, Entities.Armor_Piercing_round>();
+            PlayerInstanceVsArmor_Piercing_roundList.Name = "PlayerInstanceVsArmor_Piercing_roundList";
             Forms = new ArtyParty.FormsControls.Screens.GameScreenGumForms(GameScreenGum);
             GumScreen = GameScreenGum;
             if (SolidCollision != null)
@@ -144,6 +148,8 @@ namespace ArtyParty.Screens
         {
             bool oldShapeManagerSuppressAdd = FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue;
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = true;
+            PlayerInstanceVsArmor_Piercing_roundList.CollisionOccurred += OnPlayerInstanceVsArmor_Piercing_roundListCollisionOccurred;
+            PlayerInstanceVsArmor_Piercing_roundList.CollisionOccurred += OnPlayerInstanceVsArmor_Piercing_roundListCollisionOccurredTunnel;
             if (Map!= null)
             {
             }
