@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Text;
 using ArtyParty.DataTypes;
 using FlatRedBall.IO.Csv;
-namespace ArtyParty.Entities
+namespace ArtyParty.Entities.Projectiles
 {
     public partial class Armor_Piercing_round : FlatRedBall.PositionedObject, FlatRedBall.Graphics.IDestroyable, FlatRedBall.Performance.IPoolable, FlatRedBall.Math.Geometry.ICollidable
     {
@@ -25,6 +25,7 @@ namespace ArtyParty.Entities
         static System.Collections.Generic.List<string> mRegisteredUnloads = new System.Collections.Generic.List<string>();
         static System.Collections.Generic.List<string> LoadedContentManagers = new System.Collections.Generic.List<string>();
         public static System.Collections.Generic.Dictionary<System.String, ArtyParty.DataTypes.PlatformerValues> PlatformerValuesStatic;
+        protected static Microsoft.Xna.Framework.Graphics.Texture2D Proyectile_2_pixelart;
         
         private FlatRedBall.Sprite SpriteInstance;
         private FlatRedBall.Math.Geometry.Polygon mPolygonInstance;
@@ -115,7 +116,7 @@ namespace ArtyParty.Entities
                 return mGeneratedCollision;
             }
         }
-        public string EditModeType { get; set; } = "ArtyParty.Entities.Armor_Piercing_round";
+        public string EditModeType { get; set; } = "ArtyParty.Entities.Projectiles.Armor_Piercing_round";
         protected FlatRedBall.Graphics.Layer LayerProvidedByContainer = null;
         public Armor_Piercing_round () 
         	: this(FlatRedBall.Screens.ScreenManager.CurrentScreen.ContentManagerName, true)
@@ -264,8 +265,8 @@ namespace ArtyParty.Entities
             {
                 PolygonInstance.RelativeY = 0f;
             }
-            GroundMovement = Entities.Armor_Piercing_round.PlatformerValuesStatic["Ground"];
-            AirMovement = Entities.Armor_Piercing_round.PlatformerValuesStatic["Air"];
+            GroundMovement = Entities.Projectiles.Armor_Piercing_round.PlatformerValuesStatic["Ground"];
+            AirMovement = Entities.Projectiles.Armor_Piercing_round.PlatformerValuesStatic["Air"];
         }
         public virtual void ConvertToManuallyUpdated () 
         {
@@ -320,6 +321,11 @@ namespace ArtyParty.Entities
                         PlatformerValuesStatic = temporaryCsvObject;
                     }
                 }
+                if (!FlatRedBall.FlatRedBallServices.IsLoaded<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/projectiles/armor_piercing_round/proyectile_2_pixelart.png", ContentManagerName))
+                {
+                    registerUnload = true;
+                }
+                Proyectile_2_pixelart = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/projectiles/armor_piercing_round/proyectile_2_pixelart.png", ContentManagerName);
             }
             if (registerUnload && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
             {
@@ -347,6 +353,10 @@ namespace ArtyParty.Entities
                 {
                     PlatformerValuesStatic= null;
                 }
+                if (Proyectile_2_pixelart != null)
+                {
+                    Proyectile_2_pixelart= null;
+                }
             }
         }
         [System.Obsolete("Use GetFile instead")]
@@ -356,6 +366,8 @@ namespace ArtyParty.Entities
             {
                 case  "PlatformerValuesStatic":
                     return PlatformerValuesStatic;
+                case  "Proyectile_2_pixelart":
+                    return Proyectile_2_pixelart;
             }
             return null;
         }
@@ -365,12 +377,36 @@ namespace ArtyParty.Entities
             {
                 case  "PlatformerValuesStatic":
                     return PlatformerValuesStatic;
+                case  "Proyectile_2_pixelart":
+                    return Proyectile_2_pixelart;
             }
             return null;
         }
         object GetMember (string memberName) 
         {
+            switch(memberName)
+            {
+                case  "Proyectile_2_pixelart":
+                    return Proyectile_2_pixelart;
+            }
             return null;
+        }
+        public static void Reload (object whatToReload) 
+        {
+            if (whatToReload == PlatformerValuesStatic)
+            {
+                FlatRedBall.IO.Csv.CsvFileManager.UpdateDictionaryValuesFromCsv(PlatformerValuesStatic, "content/entities/projectiles/armor_piercing_round/platformervaluesstatic.csv");
+            }
+            if (whatToReload == Proyectile_2_pixelart)
+            {
+                var oldTexture = Proyectile_2_pixelart;
+                {
+                    var cm = FlatRedBall.FlatRedBallServices.GetContentManagerByName("Global");
+                    cm.UnloadAsset(Proyectile_2_pixelart);
+                    Proyectile_2_pixelart = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>("content/entities/projectiles/armor_piercing_round/proyectile_2_pixelart.png");
+                }
+                FlatRedBall.SpriteManager.ReplaceTexture(oldTexture, Proyectile_2_pixelart);
+            }
         }
         protected bool mIsPaused;
         public override void Pause (FlatRedBall.Instructions.InstructionList instructions) 
@@ -402,5 +438,6 @@ namespace ArtyParty.Entities
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(PolygonInstance, layerToMoveTo);
             LayerProvidedByContainer = layerToMoveTo;
         }
+        partial void CustomActivityEditMode();
     }
 }

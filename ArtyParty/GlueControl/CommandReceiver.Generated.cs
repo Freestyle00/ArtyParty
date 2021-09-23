@@ -212,6 +212,7 @@ namespace GlueControl
 
             bool isOwnerScreen = false;
 
+            Editing.EditingManager.Self.CurrentGlueElement = selectObjectDto.GlueElement;
 
             if (matchesCurrentScreen)
             {
@@ -633,7 +634,10 @@ namespace GlueControl
                     CameraLogic.SetCameraForScreen(screen, setZoom: FlatRedBall.Screens.ScreenManager.IsInEditMode);
                 }
 
+                // This sets the zoom leve internally back to the camera
                 CameraLogic.UpdateZoomLevelToCamera();
+                // Even though the camera is reset properly, Gum zoom isn't. Calling this fixes Gum zoom:
+                CameraLogic.UpdateCameraToZoomLevel();
 
                 if (FlatRedBall.Screens.ScreenManager.IsInEditMode)
                 {
@@ -665,6 +669,39 @@ namespace GlueControl
         private static void HandleDto(ReloadGlobalContentDto dto)
         {
             GlobalContent.Reload(GlobalContent.GetFile(dto.StrippedGlobalContentFileName));
+        }
+
+
+        private static void HandleDto(Dtos.ForceReloadFileDto dto)
+        {
+            var gameType = FlatRedBallServices.Game.GetType();
+            var gameAssembly = gameType.Assembly;
+            var namespacePrefix = gameType.FullName.Split('.').First();
+
+            Type elementType = null;
+            foreach (var element in dto.ElementsContainingFile)
+            {
+                var qualifiedName = $"{namespacePrefix}.{element.Replace('\\', '.')}";
+
+                elementType = gameAssembly.GetType(qualifiedName);
+
+                if (elementType != null)
+                {
+                    // invoke the ReloadFile method:
+                    var reloadMethod = elementType.GetMethod("Reload");
+
+                    var field = elementType.GetField(dto.StrippedFileName);
+
+                    var fileObjectReference = field?.GetValue(null);
+
+                    if (reloadMethod != null && fileObjectReference != null)
+                    {
+                        reloadMethod.Invoke(null, new object[] { fileObjectReference });
+                    }
+                }
+
+            }
+
         }
 
         #endregion

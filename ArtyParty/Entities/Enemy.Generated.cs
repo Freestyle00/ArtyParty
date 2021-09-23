@@ -121,7 +121,6 @@ namespace ArtyParty.Entities
         /// </summary>
         bool mIsOnGround = false;
         bool mCanContinueToApplyJumpToHold = false;
-        bool wasOnGroundLastFrame = false;
         private float lastNonZeroPlatformerHorizontalMaxSpeed = 0;
         /// <summary>
         /// Whether the character has hit its head on a solid
@@ -179,6 +178,7 @@ namespace ArtyParty.Entities
         #endregion
         public Microsoft.Xna.Framework.Vector3 PositionBeforeLastPlatformerCollision;
         #region Platformer Properties
+        public bool WasOnGroundLastFrame{ get; private set; }
         public FlatRedBall.Input.IInputDevice InputDevice
         {
             get;
@@ -593,6 +593,13 @@ namespace ArtyParty.Entities
         {
             return null;
         }
+        public static void Reload (object whatToReload) 
+        {
+            if (whatToReload == PlatformerValuesStatic)
+            {
+                FlatRedBall.IO.Csv.CsvFileManager.UpdateDictionaryValuesFromCsv(PlatformerValuesStatic, "content/entities/enemy/platformervaluesstatic.csv");
+            }
+        }
         protected bool mIsPaused;
         public override void Pause (FlatRedBall.Instructions.InstructionList instructions) 
         {
@@ -794,6 +801,7 @@ namespace ArtyParty.Entities
                 
                 this.XAcceleration = accelerationMagnitude * System.Math.Sign(desiredSpeed - XVelocity);
             }
+            groundHorizontalVelocity = 0;
         }
 
         private void ApplyClimbingInput()
@@ -1003,8 +1011,10 @@ namespace ArtyParty.Entities
 
             if (isFirstCollisionOfTheFrame)
             {
-                groundHorizontalVelocity = 0;
-                wasOnGroundLastFrame = mIsOnGround;
+                // This was set here, but if it is, custom collision (called on non-active collision relationships) won't update 
+                // this value and have it be set. Instead, we reset this after applying it
+                //groundHorizontalVelocity = 0;
+                WasOnGroundLastFrame = mIsOnGround;
                 mLastCollisionTime = FlatRedBall.TimeManager.CurrentTime;
                 PositionBeforeLastPlatformerCollision = this.Position;
                 mIsOnGround = false;
@@ -1020,14 +1030,25 @@ namespace ArtyParty.Entities
 
             if(isCloudCollision)
             {
-                // need to be moving down
-                canCheckCollision = velocityBeforeCollision.Y < 0 &&
+                // need to be moving down...
+                // Update September 10, 2021
+                // But what if we're standing 
+                // on a platform that is moving
+                // upward? This moving platform may
+                // be a cloud collision, and we should
+                // still perform collision. Therefore, we 
+                // should probably do cloud collision if...
+                // * We are on the ground OR moving downward 
+                //    --and--
+                // * Not ignoring fallthrough
+                //canCheckCollision = velocityBeforeCollision.Y < 0 &&
+                canCheckCollision = (velocityBeforeCollision.Y < 0 || WasOnGroundLastFrame) &&
                     // and not ignoring fallthrough
                     cloudCollisionFallThroughY == null;
 
                 if(canCheckCollision)
                 {
-                    if(wasOnGroundLastFrame == false &&  VerticalInput?.Value < -.5 && CurrentMovement.CanFallThroughCloudPlatforms)
+                    if(WasOnGroundLastFrame == false &&  VerticalInput?.Value < -.5 && CurrentMovement.CanFallThroughCloudPlatforms)
                     {
                         // User is in the air, holding 'down', and the current movement allows the user to fall through clouds
                         canCheckCollision = false;
@@ -1273,5 +1294,6 @@ namespace ArtyParty.Entities
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(AxisAlignedRectangleInstance, layerToMoveTo);
             LayerProvidedByContainer = layerToMoveTo;
         }
+        partial void CustomActivityEditMode();
     }
 }

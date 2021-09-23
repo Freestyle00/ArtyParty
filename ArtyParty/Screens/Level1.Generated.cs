@@ -23,12 +23,14 @@ namespace ArtyParty.Screens
         public Level1 () 
         	: base ()
         {
+            // skipping instantiation of FlatRedBall.Math.PositionedObjectList<Armor_Piercing_round> Armor_Piercing_roundList in Screens\Level1 (Screen) because it has its InstantiatedByBase set to true
         }
         public override void Initialize (bool addToManagers) 
         {
             LoadStaticContent(ContentManagerName);
             Map = Level1Map;
             SolidCollision = new FlatRedBall.TileCollisions.TileShapeCollection(); SolidCollision.Name = "SolidCollision";
+            // skipping instantiation of FlatRedBall.Math.PositionedObjectList<Armor_Piercing_round> Armor_Piercing_roundList in Screens\Level1 (Screen) because it has its InstantiatedByBase set to true
             Forms = new ArtyParty.FormsControls.Screens.Level1GumForms(Level1Gum);
             GumScreen = Level1Gum;
             
@@ -186,9 +188,13 @@ namespace ArtyParty.Screens
             }
             return null;
         }
+        public static void Reload (object whatToReload) 
+        {
+        }
         private void RefreshLayoutInternal (object sender, EventArgs e) 
         {
             Level1Gum.UpdateLayout();
         }
+        partial void CustomActivityEditMode();
     }
 }

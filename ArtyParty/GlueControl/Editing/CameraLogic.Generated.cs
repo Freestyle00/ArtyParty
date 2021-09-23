@@ -15,11 +15,13 @@ using FlatRedBall.Screens;
 
 namespace GlueControl.Editing
 {
+    #region CameraStateForScreen
     class CameraStateForScreen
     {
         public Vector3 Position;
         public float OrthogonalHeight;
     }
+    #endregion
 
     class CameraLogic
     {
@@ -158,7 +160,7 @@ namespace GlueControl.Editing
             }
         }
 
-        private static void UpdateCameraToZoomLevel(bool zoomAroundCursorPosition = true)
+        public static void UpdateCameraToZoomLevel(bool zoomAroundCursorPosition = true)
         {
             var cursor = GuiManager.Cursor;
             var worldXBefore = cursor.WorldX;
@@ -167,6 +169,20 @@ namespace GlueControl.Editing
             var zoomLevel = zoomLevels[currentZoomLevelIndex];
             Camera.Main.OrthogonalHeight = (CameraSetup.Data.Scale / 100.0f) * CameraSetup.Data.ResolutionHeight / (zoomLevel / 100.0f);
             Camera.Main.FixAspectRatioYConstant();
+
+
+            if (global::RenderingLibrary.SystemManagers.Default != null)
+            {
+                global::RenderingLibrary.SystemManagers.Default.Renderer.Camera.Zoom = zoomLevel / 100.0f;
+                foreach (var layer in global::RenderingLibrary.SystemManagers.Default.Renderer.Layers)
+                {
+                    if (layer.LayerCameraSettings != null)
+                    {
+                        layer.LayerCameraSettings.Zoom = zoomLevel / 100.0f;
+                    }
+                }
+            }
+
 
             if (zoomAroundCursorPosition)
             {

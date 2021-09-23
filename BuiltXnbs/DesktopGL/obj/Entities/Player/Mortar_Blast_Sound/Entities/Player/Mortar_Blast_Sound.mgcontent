@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>c:/users/nick_/documents/flatredballprojects/artyparty/ArtyParty/Content/Entities/Player/Mortar_Blast_Sound.wav</SourceFile>
+  <SourceTime>2021-09-19T19:03:07.5914721+02:00</SourceTime>
+  <DestFile>c:/users/nick_/documents/flatredballprojects/artyparty/BuiltXnbs/DesktopGL/Entities/Player/Mortar_Blast_Sound.xnb</DestFile>
+  <DestTime>2021-09-20T19:15:20.0575961+02:00</DestTime>
+  <Importer>WavImporter</Importer>
+  <ImporterTime>2021-09-20T19:10:57.6305575+02:00</ImporterTime>
+  <Processor>SoundEffectProcessor</Processor>
+  <ProcessorTime>2021-09-20T19:10:57.6305575+02:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

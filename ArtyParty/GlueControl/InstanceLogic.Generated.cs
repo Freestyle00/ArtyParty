@@ -4,23 +4,24 @@
 
 using FlatRedBall;
 using FlatRedBall.Gui;
-using FlatRedBall.Math.Geometry;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using FlatRedBall.Graphics;
+using FlatRedBall.Instructions.Reflection;
 using FlatRedBall.Math;
+using FlatRedBall.Math.Geometry;
+using FlatRedBall.Screens;
 using FlatRedBall.Utilities;
 
-using FlatRedBall.Screens;
-using FlatRedBall.Graphics;
-
-using GlueControl.Models;
-using System.Collections;
-using GlueControl.Runtime;
 using GlueControl.Dtos;
 using GlueControl.Editing;
+using GlueControl.Runtime;
+using GlueControl.Models;
 
 namespace GlueControl
 {
@@ -666,10 +667,51 @@ namespace GlueControl
         {
             var newName = GetNameFor(entityGameType);
 
-            var toReturn = CreateEntity(entityGameType);
-            toReturn.X = original.X;
-            toReturn.Y = original.Y;
-            toReturn.Name = newName;
+            var newInstance = CreateEntity(entityGameType);
+            newInstance.X = original.X;
+            newInstance.Y = original.Y;
+            newInstance.Name = newName;
+
+
+            // The NamedObjectSave could contain additional properties that are assigned
+            // on the instance. We want to assign those:
+            var glueElement = EditingManager.Self.CurrentGlueElement;
+            // find the nos:
+            var nosForCopiedObject = EditingManager.Self.CurrentGlueElement
+                ?.AllNamedObjects.FirstOrDefault(item => item.InstanceName == original.Name);
+
+            if (nosForCopiedObject != null)
+            {
+                // loop through all the variables on the nos and apply them to the
+                // copied runtime object *and* send those back to Glue so Glue can apply
+                // them to the copied NOS
+                // Note that if these values are on the NamedObject.InstructionSaves, then 
+                // they have been explicitly set. Therefore, we don't have to do equality comparison
+                // between the old and new value. If they're in the copied InstructionSaves, they should
+                // be explicitly set on the new!
+                foreach (var instructionInOriginal in nosForCopiedObject.InstructionSaves)
+                {
+                    var shouldSend =
+                        instructionInOriginal.Member != "X" &&
+                        instructionInOriginal.Member != "Y";
+
+                    if (shouldSend)
+                    {
+                        // When applying values to the runtime, don't use the
+                        // NamedObject, because that contains serialized values
+                        // which may need to be converted back. Just use the value
+                        // directly from the copy:
+                        var originalRuntimeValue = LateBinder.GetValueStatic(
+                            original, instructionInOriginal.Member);
+
+                        // apply it on the copy
+                        LateBinder.SetValueStatic(
+                            newInstance, instructionInOriginal.Member,
+                            originalRuntimeValue);
+
+                    }
+                }
+            }
 
             #region Create the AddObjectDto for the new object
 
@@ -682,12 +724,12 @@ namespace GlueControl
             AddFloatValue(addObjectDto, "X", original.X);
             AddFloatValue(addObjectDto, "Y", original.Y);
 
-            var properties = toReturn.GetType().GetProperties();
+            var properties = newInstance.GetType().GetProperties();
 
-            foreach (var property in properties)
+            foreach (var newInstanceProperty in properties)
             {
-                var oldPropertyValue = property.GetValue(original);
-                var newPropertyValue = property.GetValue(toReturn);
+                var oldPropertyValue = newInstanceProperty.GetValue(original);
+                var newPropertyValue = newInstanceProperty.GetValue(newInstance);
 
                 if (oldPropertyValue != newPropertyValue)
                 {
@@ -699,37 +741,68 @@ namespace GlueControl
                     if (shouldSet)
                     {
                         // for now we'll only handle states, which have a + in the name. 
-                        var fullName = property.PropertyType.FullName;
+                        var fullName = newInstanceProperty.PropertyType.FullName;
                         isState = fullName.Contains("+");
                         shouldSet = isState;
                     }
 
                     if (shouldSet)
                     {
-                        property.SetValue(toReturn, oldPropertyValue);
-                        var type = property.PropertyType.Name;
+                        newInstanceProperty.SetValue(newInstance, oldPropertyValue);
+                        var type = newInstanceProperty.PropertyType.Name;
                         var value = oldPropertyValue;
 
                         if (isState)
                         {
-                            type = property.PropertyType.FullName.Replace("+", ".");
-                            var nameField = property.PropertyType.GetField("Name");
+                            type = newInstanceProperty.PropertyType.FullName.Replace("+", ".");
+                            var nameField = newInstanceProperty.PropertyType.GetField("Name");
                             if (nameField != null)
                             {
                                 value = nameField.GetValue(value);
                             }
                         }
 
-                        AddValue(addObjectDto, property.Name, type, value);
+                        AddValue(addObjectDto, newInstanceProperty.Name, type, value);
+                    }
+                }
+            }
+
+            if (nosForCopiedObject != null)
+            {
+                foreach (var instruction in nosForCopiedObject.InstructionSaves)
+                {
+                    if (instruction.Member != "X" && instruction.Member != "Y")
+                    {
+                        addObjectDto.InstructionSaves.Add(instruction);
                     }
                 }
             }
 
             #endregion
 
+
+            // do we need to add the new NOS to the current element? Or do we rely on the game to tell us that? Need to test/decide this....
+            // Update - The game will eventually refresh this whenever the selection changes, but we do want to 
+            var currentElement = EditingManager.Self.CurrentGlueElement;
+            if (currentElement != null)
+            {
+                if (currentElement.NamedObjects.Contains(nosForCopiedObject))
+                {
+                    currentElement.NamedObjects.Add(addObjectDto);
+                }
+                else
+                {
+                    var container = currentElement.NamedObjects.FirstOrDefault(item => item.ContainedObjects.Contains(nosForCopiedObject));
+                    if (container != null)
+                    {
+                        container.ContainedObjects.Add(addObjectDto);
+                    }
+                }
+            }
+
             SendAndEnqueue(addObjectDto);
 
-            return toReturn;
+            return newInstance;
         }
 
         public FlatRedBall.PositionedObject CreateInstanceByGame(string entityGameType, float x, float y)
@@ -1080,6 +1153,13 @@ namespace GlueControl
                 var fieldInfo = stateType.GetField(valueAsString);
 
                 variableValue = fieldInfo.GetValue(null);
+            }
+            else if (instruction.Type == "int")
+            {
+                if (variableValue is long asLong)
+                {
+                    variableValue = (int)asLong;
+                }
             }
             else if (instruction.Type == "float" || instruction.Type == "Single")
             {

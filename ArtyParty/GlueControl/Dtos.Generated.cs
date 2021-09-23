@@ -35,6 +35,9 @@ namespace GlueControl.Dtos
 
     class SelectObjectDto
     {
+        public ScreenSave ScreenSave { get; set; }
+        public EntitySave EntitySave { get; set; }
+        public GlueElement GlueElement => (GlueElement)ScreenSave ?? EntitySave;
         public NamedObjectSave NamedObject { get; set; }
         public string ElementNameGlue { get; set; }
         public string StateName { get; set; }
@@ -161,5 +164,12 @@ namespace GlueControl.Dtos
         public List<Vector2> AddedPositions { get; set; }
         public List<Vector2> RemovedPositions { get; set; }
         public bool RequestRestart { get; set; }
+    }
+
+    public class ForceReloadFileDto
+    {
+        public bool LoadInGlobalContent { get; set; }
+        public List<string> ElementsContainingFile { get; set; }
+        public string StrippedFileName { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArtyParty.Entities
+namespace ArtyParty.Entities.Projectiles
 { 
 	public partial class Armor_Piercing_round
 	{
@@ -20,7 +20,7 @@ namespace ArtyParty.Entities
 			/// </summary>
 			this.RotationZ = Rotation;
 			this.YAcceleration = -GRAVITY;
-			Rotation += TURRET_ROTATION_DIFFERENCE; //As the turret rotation difference had to be subtracted so that the bullet will show correctly I have to readd it so that the math is correct (and im 1005 sure this is gonna be a clusterfuck later)
+			Rotation += TURRET_ROTATION_DIFFERENCE; //As the turret rotation difference had to be subtracted so that the bullet will show correctly I have to readd it so that the math is correct (and im 100% sure this is gonna be a clusterfuck later)
 			this.Position = Position;
 			this.Velocity.X = (float)Math.Cos(Rotation) * MAXIMUM_SPEED;
 			this.Velocity.Y = (float)Math.Sin(Rotation) * MAXIMUM_SPEED;

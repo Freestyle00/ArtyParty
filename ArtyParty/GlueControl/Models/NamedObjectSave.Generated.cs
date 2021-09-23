@@ -24,6 +24,8 @@ namespace GlueControl.Models
 
     #endregion
 
+    #region PropertySave class
+
     public class PropertySave
     {
         public string Name;
@@ -35,6 +37,8 @@ namespace GlueControl.Models
             return $"{Name} = {Value}";
         }
     }
+
+    #endregion
 
     public static class PropertySaveListExtensions
     {
@@ -118,6 +122,8 @@ namespace GlueControl.Models
             set;
         }
 
+        public List<InstructionSave> InstructionSaves = new List<InstructionSave>();
+
         public bool AddToManagers
         {
             get; set;
@@ -142,7 +148,11 @@ namespace GlueControl.Models
             set;
         }
 
-        public List<InstructionSave> InstructionSaves = new List<InstructionSave>();
+        public List<NamedObjectSave> ContainedObjects
+        {
+            get;
+            set;
+        } = new List<NamedObjectSave>();
 
         public NamedObjectSave()
         {

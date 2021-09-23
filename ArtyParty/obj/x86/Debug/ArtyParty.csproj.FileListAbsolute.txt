@@ -165,3 +165,8 @@ C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\bin\DesktopGL\x
 C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\bin\DesktopGL\x86\Debug\StateInterpolation.pdb
 c:\users\nick_\documents\flatredballprojects\artyparty\artyparty\bin\x86\Debug\content\entities\projectiles\armor_piercing_round\platformervaluesstatic.csv
 C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\bin\DesktopGL\x86\Debug\content\entities\projectiles\armor_piercing_round\platformervaluesstatic.csv
+C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\bin\DesktopGL\x86\Debug\content\entities\player\mortar_blast_sound.xnb
+c:\users\nick_\documents\flatredballprojects\artyparty\ArtyParty\bin\x86\Debug\content\entities\player\tank_body_pixelator.png
+c:\users\nick_\documents\flatredballprojects\artyparty\ArtyParty\bin\x86\Debug\content\entities\player\tank_weapon_pixelator.png
+c:\users\nick_\documents\flatredballprojects\artyparty\ArtyParty\bin\x86\Debug\content\entities\projectiles\armor_piercing_round\proyectile_2_pixelart.png
+c:\users\nick_\documents\flatredballprojects\artyparty\ArtyParty\bin\x86\Debug\content\entities\player\mortar_blast_sound.xnb

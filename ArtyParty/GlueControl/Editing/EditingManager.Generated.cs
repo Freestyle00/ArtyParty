@@ -46,6 +46,8 @@ namespace GlueControl.Editing
 
         List<INameable> ItemsSelected = new List<INameable>();
         INameable ItemSelected => ItemsSelected.Count > 0 ? ItemsSelected[0] : null;
+
+        public GlueElement CurrentGlueElement { get; set; }
         public NamedObjectSave CurrentNamedObjectSave { get; private set; }
 
         public ElementEditingMode ElementEditingMode { get; set; }
@@ -333,16 +335,75 @@ namespace GlueControl.Editing
                 AddAndDestroyMarkersAccordingToItemsSelected();
             }
 
+            DoNudgeHotkeyLogic();
+
             CopyPasteManager.DoHotkeyLogic(ItemsSelected);
 
             CameraLogic.DoHotkeyLogic();
 
         }
 
+        private void DoNudgeHotkeyLogic()
+        {
+            var keyboard = InputManager.Keyboard;
+
+            var isShiftDown = keyboard.IsShiftDown;
+            var shiftAmount = isShiftDown ? 8 : 1;
+            if (keyboard.IsCtrlDown == false)
+            {
+                if (keyboard.KeyTyped(Microsoft.Xna.Framework.Input.Keys.Up))
+                {
+                    foreach (var item in ItemsSelected)
+                    {
+                        if (item is PositionedObject asPositionedObject)
+                        {
+                            asPositionedObject.Y += shiftAmount;
+                            PropertyChanged(item, nameof(asPositionedObject.Y), asPositionedObject.Y);
+                        }
+                    }
+                }
+                if (keyboard.KeyTyped(Microsoft.Xna.Framework.Input.Keys.Down))
+                {
+                    foreach (var item in ItemsSelected)
+                    {
+                        if (item is PositionedObject asPositionedObject)
+                        {
+                            asPositionedObject.Y -= shiftAmount;
+                            PropertyChanged(item, nameof(asPositionedObject.Y), asPositionedObject.Y);
+                        }
+                    }
+                }
+                if (keyboard.KeyTyped(Microsoft.Xna.Framework.Input.Keys.Left))
+                {
+                    foreach (var item in ItemsSelected)
+                    {
+                        if (item is PositionedObject asPositionedObject)
+                        {
+                            asPositionedObject.X -= shiftAmount;
+                            PropertyChanged(item, nameof(asPositionedObject.X), asPositionedObject.X);
+                        }
+                    }
+                }
+                if (keyboard.KeyTyped(Microsoft.Xna.Framework.Input.Keys.Right))
+                {
+                    foreach (var item in ItemsSelected)
+                    {
+                        if (item is PositionedObject asPositionedObject)
+                        {
+                            asPositionedObject.X += shiftAmount;
+                            PropertyChanged(item, nameof(asPositionedObject.X), asPositionedObject.X);
+                        }
+                    }
+                }
+            }
+        }
+
         public void UpdateDependencies()
         {
 
         }
+
+        #region Selection
 
         internal void Select(NamedObjectSave namedObject)
         {
@@ -407,5 +468,15 @@ namespace GlueControl.Editing
                 Select(name, addToExistingSelection: true, playBump);
             }
         }
+
+        public void RaiseObjectSelected()
+        {
+            if (ObjectSelected != null && ItemSelected != null)
+            {
+                ObjectSelected(ItemSelected);
+            }
+        }
+
+        #endregion
     }
 }

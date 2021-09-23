@@ -25,8 +25,12 @@ namespace ArtyParty.Entities
         static System.Collections.Generic.List<string> mRegisteredUnloads = new System.Collections.Generic.List<string>();
         static System.Collections.Generic.List<string> LoadedContentManagers = new System.Collections.Generic.List<string>();
         public static System.Collections.Generic.Dictionary<System.String, ArtyParty.DataTypes.PlatformerValues> PlatformerValuesStatic;
+        protected static Microsoft.Xna.Framework.Audio.SoundEffect Mortar_Blast_Sound;
+        protected static Microsoft.Xna.Framework.Graphics.Texture2D Tank_Body_Pixelator;
+        protected static Microsoft.Xna.Framework.Graphics.Texture2D Tank_Weapon_Pixelator;
         
         private FlatRedBall.Sprite SpriteInstance;
+        private FlatRedBall.Sprite SpriteInstance1;
         private FlatRedBall.Math.Geometry.Polygon mTurret;
         public FlatRedBall.Math.Geometry.Polygon Turret
         {
@@ -155,7 +159,6 @@ namespace ArtyParty.Entities
         /// </summary>
         bool mIsOnGround = false;
         bool mCanContinueToApplyJumpToHold = false;
-        bool wasOnGroundLastFrame = false;
         private float lastNonZeroPlatformerHorizontalMaxSpeed = 0;
         /// <summary>
         /// Whether the character has hit its head on a solid
@@ -213,6 +216,7 @@ namespace ArtyParty.Entities
         #endregion
         public Microsoft.Xna.Framework.Vector3 PositionBeforeLastPlatformerCollision;
         #region Platformer Properties
+        public bool WasOnGroundLastFrame{ get; private set; }
         public FlatRedBall.Input.IInputDevice InputDevice
         {
             get;
@@ -380,6 +384,9 @@ namespace ArtyParty.Entities
             SpriteInstance = new FlatRedBall.Sprite();
             SpriteInstance.Name = "SpriteInstance";
             SpriteInstance.CreationSource = "Glue";
+            SpriteInstance1 = new FlatRedBall.Sprite();
+            SpriteInstance1.Name = "SpriteInstance1";
+            SpriteInstance1.CreationSource = "Glue";
             mTurret = new FlatRedBall.Math.Geometry.Polygon();
             mTurret.Name = "Turret";
             mTurret.CreationSource = "Glue";
@@ -436,6 +443,7 @@ namespace ArtyParty.Entities
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(SpriteInstance, LayerProvidedByContainer);
+            FlatRedBall.SpriteManager.AddToLayer(SpriteInstance1, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mTurret, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mMainTankBody, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mGunHolder, LayerProvidedByContainer);
@@ -446,6 +454,7 @@ namespace ArtyParty.Entities
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(SpriteInstance, LayerProvidedByContainer);
+            FlatRedBall.SpriteManager.AddToLayer(SpriteInstance1, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mTurret, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mMainTankBody, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mGunHolder, LayerProvidedByContainer);
@@ -471,6 +480,10 @@ namespace ArtyParty.Entities
             if (SpriteInstance != null)
             {
                 FlatRedBall.SpriteManager.RemoveSprite(SpriteInstance);
+            }
+            if (SpriteInstance1 != null)
+            {
+                FlatRedBall.SpriteManager.RemoveSprite(SpriteInstance1);
             }
             if (Turret != null)
             {
@@ -500,7 +513,56 @@ namespace ArtyParty.Entities
                 SpriteInstance.CopyAbsoluteToRelative();
                 SpriteInstance.AttachTo(this, false);
             }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.X = -224f;
+            }
+            else
+            {
+                SpriteInstance.RelativeX = -224f;
+            }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.Y = -48f;
+            }
+            else
+            {
+                SpriteInstance.RelativeY = -48f;
+            }
+            SpriteInstance.Texture = Tank_Body_Pixelator;
             SpriteInstance.TextureScale = 1f;
+            if (SpriteInstance1.Parent == null)
+            {
+                SpriteInstance1.CopyAbsoluteToRelative();
+                SpriteInstance1.AttachTo(this, false);
+            }
+            if (SpriteInstance1.Parent == null)
+            {
+                SpriteInstance1.X = 10f;
+            }
+            else
+            {
+                SpriteInstance1.RelativeX = 10f;
+            }
+            if (SpriteInstance1.Parent == null)
+            {
+                SpriteInstance1.Y = 24f;
+            }
+            else
+            {
+                SpriteInstance1.RelativeY = 24f;
+            }
+            SpriteInstance1.Texture = Tank_Weapon_Pixelator;
+            SpriteInstance1.TextureScale = 0.5f;
+            SpriteInstance1.Red = 0f;
+            if (SpriteInstance1.Parent == null)
+            {
+                SpriteInstance1.RotationZ = 0.052359883f;
+            }
+            else
+            {
+                SpriteInstance1.RelativeRotationZ = 0.052359883f;
+            }
             if (mTurret.Parent == null)
             {
                 mTurret.CopyAbsoluteToRelative();
@@ -601,6 +663,10 @@ namespace ArtyParty.Entities
             {
                 FlatRedBall.SpriteManager.RemoveSpriteOneWay(SpriteInstance);
             }
+            if (SpriteInstance1 != null)
+            {
+                FlatRedBall.SpriteManager.RemoveSpriteOneWay(SpriteInstance1);
+            }
             if (Turret != null)
             {
                 FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(Turret);
@@ -624,7 +690,51 @@ namespace ArtyParty.Entities
             if (callOnContainedElements)
             {
             }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.X = -224f;
+            }
+            else
+            {
+                SpriteInstance.RelativeX = -224f;
+            }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.Y = -48f;
+            }
+            else
+            {
+                SpriteInstance.RelativeY = -48f;
+            }
+            SpriteInstance.Texture = Tank_Body_Pixelator;
             SpriteInstance.TextureScale = 1f;
+            if (SpriteInstance1.Parent == null)
+            {
+                SpriteInstance1.X = 10f;
+            }
+            else
+            {
+                SpriteInstance1.RelativeX = 10f;
+            }
+            if (SpriteInstance1.Parent == null)
+            {
+                SpriteInstance1.Y = 24f;
+            }
+            else
+            {
+                SpriteInstance1.RelativeY = 24f;
+            }
+            SpriteInstance1.Texture = Tank_Weapon_Pixelator;
+            SpriteInstance1.TextureScale = 0.5f;
+            SpriteInstance1.Red = 0f;
+            if (SpriteInstance1.Parent == null)
+            {
+                SpriteInstance1.RotationZ = 0.052359883f;
+            }
+            else
+            {
+                SpriteInstance1.RelativeRotationZ = 0.052359883f;
+            }
             if (Turret.Parent == null)
             {
                 Turret.X = 0f;
@@ -694,6 +804,7 @@ namespace ArtyParty.Entities
             this.ForceUpdateDependenciesDeep();
             FlatRedBall.SpriteManager.ConvertToManuallyUpdated(this);
             FlatRedBall.SpriteManager.ConvertToManuallyUpdated(SpriteInstance);
+            FlatRedBall.SpriteManager.ConvertToManuallyUpdated(SpriteInstance1);
         }
         public static void LoadStaticContent (string contentManagerName) 
         {
@@ -742,6 +853,17 @@ namespace ArtyParty.Entities
                         PlatformerValuesStatic = temporaryCsvObject;
                     }
                 }
+                Mortar_Blast_Sound = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Audio.SoundEffect>(@"content/entities/player/mortar_blast_sound", ContentManagerName);
+                if (!FlatRedBall.FlatRedBallServices.IsLoaded<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/player/tank_body_pixelator.png", ContentManagerName))
+                {
+                    registerUnload = true;
+                }
+                Tank_Body_Pixelator = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/player/tank_body_pixelator.png", ContentManagerName);
+                if (!FlatRedBall.FlatRedBallServices.IsLoaded<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/player/tank_weapon_pixelator.png", ContentManagerName))
+                {
+                    registerUnload = true;
+                }
+                Tank_Weapon_Pixelator = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/player/tank_weapon_pixelator.png", ContentManagerName);
             }
             if (registerUnload && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
             {
@@ -769,6 +891,18 @@ namespace ArtyParty.Entities
                 {
                     PlatformerValuesStatic= null;
                 }
+                if (Mortar_Blast_Sound != null)
+                {
+                    Mortar_Blast_Sound= null;
+                }
+                if (Tank_Body_Pixelator != null)
+                {
+                    Tank_Body_Pixelator= null;
+                }
+                if (Tank_Weapon_Pixelator != null)
+                {
+                    Tank_Weapon_Pixelator= null;
+                }
             }
         }
         [System.Obsolete("Use GetFile instead")]
@@ -778,6 +912,12 @@ namespace ArtyParty.Entities
             {
                 case  "PlatformerValuesStatic":
                     return PlatformerValuesStatic;
+                case  "Mortar_Blast_Sound":
+                    return Mortar_Blast_Sound;
+                case  "Tank_Body_Pixelator":
+                    return Tank_Body_Pixelator;
+                case  "Tank_Weapon_Pixelator":
+                    return Tank_Weapon_Pixelator;
             }
             return null;
         }
@@ -787,12 +927,54 @@ namespace ArtyParty.Entities
             {
                 case  "PlatformerValuesStatic":
                     return PlatformerValuesStatic;
+                case  "Mortar_Blast_Sound":
+                    return Mortar_Blast_Sound;
+                case  "Tank_Body_Pixelator":
+                    return Tank_Body_Pixelator;
+                case  "Tank_Weapon_Pixelator":
+                    return Tank_Weapon_Pixelator;
             }
             return null;
         }
         object GetMember (string memberName) 
         {
+            switch(memberName)
+            {
+                case  "Mortar_Blast_Sound":
+                    return Mortar_Blast_Sound;
+                case  "Tank_Body_Pixelator":
+                    return Tank_Body_Pixelator;
+                case  "Tank_Weapon_Pixelator":
+                    return Tank_Weapon_Pixelator;
+            }
             return null;
+        }
+        public static void Reload (object whatToReload) 
+        {
+            if (whatToReload == PlatformerValuesStatic)
+            {
+                FlatRedBall.IO.Csv.CsvFileManager.UpdateDictionaryValuesFromCsv(PlatformerValuesStatic, "content/entities/player/platformervaluesstatic.csv");
+            }
+            if (whatToReload == Tank_Body_Pixelator)
+            {
+                var oldTexture = Tank_Body_Pixelator;
+                {
+                    var cm = FlatRedBall.FlatRedBallServices.GetContentManagerByName("Global");
+                    cm.UnloadAsset(Tank_Body_Pixelator);
+                    Tank_Body_Pixelator = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>("content/entities/player/tank_body_pixelator.png");
+                }
+                FlatRedBall.SpriteManager.ReplaceTexture(oldTexture, Tank_Body_Pixelator);
+            }
+            if (whatToReload == Tank_Weapon_Pixelator)
+            {
+                var oldTexture = Tank_Weapon_Pixelator;
+                {
+                    var cm = FlatRedBall.FlatRedBallServices.GetContentManagerByName("Global");
+                    cm.UnloadAsset(Tank_Weapon_Pixelator);
+                    Tank_Weapon_Pixelator = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>("content/entities/player/tank_weapon_pixelator.png");
+                }
+                FlatRedBall.SpriteManager.ReplaceTexture(oldTexture, Tank_Weapon_Pixelator);
+            }
         }
         protected bool mIsPaused;
         public override void Pause (FlatRedBall.Instructions.InstructionList instructions) 
@@ -804,6 +986,7 @@ namespace ArtyParty.Entities
         {
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(this);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(SpriteInstance);
+            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(SpriteInstance1);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(Turret);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(MainTankBody);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(GunHolder);
@@ -998,6 +1181,7 @@ namespace ArtyParty.Entities
                 
                 this.XAcceleration = accelerationMagnitude * System.Math.Sign(desiredSpeed - XVelocity);
             }
+            groundHorizontalVelocity = 0;
         }
 
         private void ApplyClimbingInput()
@@ -1207,8 +1391,10 @@ namespace ArtyParty.Entities
 
             if (isFirstCollisionOfTheFrame)
             {
-                groundHorizontalVelocity = 0;
-                wasOnGroundLastFrame = mIsOnGround;
+                // This was set here, but if it is, custom collision (called on non-active collision relationships) won't update 
+                // this value and have it be set. Instead, we reset this after applying it
+                //groundHorizontalVelocity = 0;
+                WasOnGroundLastFrame = mIsOnGround;
                 mLastCollisionTime = FlatRedBall.TimeManager.CurrentTime;
                 PositionBeforeLastPlatformerCollision = this.Position;
                 mIsOnGround = false;
@@ -1224,14 +1410,25 @@ namespace ArtyParty.Entities
 
             if(isCloudCollision)
             {
-                // need to be moving down
-                canCheckCollision = velocityBeforeCollision.Y < 0 &&
+                // need to be moving down...
+                // Update September 10, 2021
+                // But what if we're standing 
+                // on a platform that is moving
+                // upward? This moving platform may
+                // be a cloud collision, and we should
+                // still perform collision. Therefore, we 
+                // should probably do cloud collision if...
+                // * We are on the ground OR moving downward 
+                //    --and--
+                // * Not ignoring fallthrough
+                //canCheckCollision = velocityBeforeCollision.Y < 0 &&
+                canCheckCollision = (velocityBeforeCollision.Y < 0 || WasOnGroundLastFrame) &&
                     // and not ignoring fallthrough
                     cloudCollisionFallThroughY == null;
 
                 if(canCheckCollision)
                 {
-                    if(wasOnGroundLastFrame == false &&  VerticalInput?.Value < -.5 && CurrentMovement.CanFallThroughCloudPlatforms)
+                    if(WasOnGroundLastFrame == false &&  VerticalInput?.Value < -.5 && CurrentMovement.CanFallThroughCloudPlatforms)
                     {
                         // User is in the air, holding 'down', and the current movement allows the user to fall through clouds
                         canCheckCollision = false;
@@ -1472,6 +1669,14 @@ namespace ArtyParty.Entities
             }
             if (layerToRemoveFrom != null)
             {
+                layerToRemoveFrom.Remove(SpriteInstance1);
+            }
+            if (layerToMoveTo != null || !SpriteManager.AutomaticallyUpdatedSprites.Contains(SpriteInstance1))
+            {
+                FlatRedBall.SpriteManager.AddToLayer(SpriteInstance1, layerToMoveTo);
+            }
+            if (layerToRemoveFrom != null)
+            {
                 layerToRemoveFrom.Remove(Turret);
             }
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(Turret, layerToMoveTo);
@@ -1492,5 +1697,6 @@ namespace ArtyParty.Entities
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(Tracks, layerToMoveTo);
             LayerProvidedByContainer = layerToMoveTo;
         }
+        partial void CustomActivityEditMode();
     }
 }

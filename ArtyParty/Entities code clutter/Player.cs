@@ -13,9 +13,9 @@ namespace ArtyParty.Entities
 	{
 		const float UPPER_MAXIMUM_TURRET_ROTATION_POINT = 1.396263f; //(# ah yes python) This is RAD (and this is a stupid joke i made after needing 30minutes of debugiing to find out that the Z value is RAD not DEG)
 		const float LOWER_MAXIMUM_TURRET_ROTATION_POINT = 0.01745329f;
-		const float NORMAL_TURRET_SPEED = 0.2f;
-		const float FASTER_TURRET_SPEED = 0.4f;
-		const float TURRET_ROTATION_DIFFERENCE = 1.570796f;
+		const float NORMAL_TURRET_SPEED				    = 0.2f;
+		const float FASTER_TURRET_SPEED					= 0.4f;
+		const float TURRET_ROTATION_DIFFERENCE			= 1.570796f;
 		void Inputcode()
 		{
 			this.HorizontalInput = InputManager.Keyboard.Get1DInput(Keys.Left, Keys.Right).Or(InputManager.Keyboard.Get1DInput(Keys.A, Keys.D));
@@ -37,9 +37,10 @@ namespace ArtyParty.Entities
 		{
 			if (InputManager.Keyboard.KeyPushed(Keys.Space))
 			{
-				var position = Turret.AbsolutePointPosition(2);
+				var position = Turret.AbsolutePointPosition(2) + new Vector3(1, 0, 0);
 				var bullet = Factories.Armor_Piercing_roundFactory.CreateNew(position);
-				bullet.__init__(Turret.RelativeRotationZ - TURRET_ROTATION_DIFFERENCE, position); 
+				bullet.__init__(Turret.RelativeRotationZ - TURRET_ROTATION_DIFFERENCE, position);
+				Mortar_Blast_Sound.Play(1, 0, 0);
 			}
 		}
 	}

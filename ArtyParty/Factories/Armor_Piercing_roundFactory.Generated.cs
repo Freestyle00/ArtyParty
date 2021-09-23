@@ -1,4 +1,4 @@
-using ArtyParty.Entities;
+using ArtyParty.Entities.Projectiles;
 using System;
 using FlatRedBall.Math;
 using FlatRedBall.Graphics;

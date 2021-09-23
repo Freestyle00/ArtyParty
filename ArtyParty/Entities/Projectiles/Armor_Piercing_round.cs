@@ -10,7 +10,7 @@ using FlatRedBall.Graphics.Particle;
 using FlatRedBall.Math.Geometry;
 using Microsoft.Xna.Framework.Input;
 
-namespace ArtyParty.Entities
+namespace ArtyParty.Entities.Projectiles
 {
     public partial class Armor_Piercing_round
     {

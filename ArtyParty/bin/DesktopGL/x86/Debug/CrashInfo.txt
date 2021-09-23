@@ -1,33 +1,16 @@
-System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.InvalidOperationException: Error setting Color to Blue (value type System.String) ---> System.InvalidCastException: Die angegebene Umwandlung ist ungültig.
-   bei DynamicSet(Object , Object )
-   bei FlatRedBall.Instructions.Reflection.LateBinder`1.SetProperty[K](Object target, String propertyName, K value) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Instructions\Reflection\LateBinder.cs:Zeile 472.
-   bei FlatRedBall.Instructions.Reflection.LateBinder`1.SetValue(Object target, String name, Object value) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Instructions\Reflection\LateBinder.cs:Zeile 353.
-   --- Ende der internen Ausnahmestapelüberwachung ---
-   bei FlatRedBall.Instructions.Reflection.LateBinder`1.SetValue(Object target, String name, Object value) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Instructions\Reflection\LateBinder.cs:Zeile 359.
-   bei FlatRedBall.Instructions.Reflection.LateBinder.SetValueStatic(Object target, String name, Object value) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Instructions\Reflection\LateBinder.cs:Zeile 52.
-   bei GlueControl.InstanceLogic.AssignVariable(Object instance, InstructionSave instruction) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\InstanceLogic.Generated.cs:Zeile 1115.
-   bei GlueControl.InstanceLogic.AssignVariablesOnNewlyCreatedObject(NamedObjectSave deserialized, Object newObject) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\InstanceLogic.Generated.cs:Zeile 476.
-   bei GlueControl.InstanceLogic.HandleCreateInstanceCommandFromGlueInner(NamedObjectSave deserialized, Int32 currentAddObjectIndex, PositionedObject owner) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\InstanceLogic.Generated.cs:Zeile 280.
-   bei GlueControl.InstanceLogic.HandleCreateInstanceCommandFromGlue(AddObjectDto dto, Int32 currentAddObjectIndex, PositionedObject forcedItem) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\InstanceLogic.Generated.cs:Zeile 120.
-   bei GlueControl.CommandReceiver.HandleDto(AddObjectDto dto) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\CommandReceiver.Generated.cs:Zeile 425.
-   --- Ende der internen Ausnahmestapelüberwachung ---
-   bei System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
-   bei System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
-   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
-   bei System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
-   bei GlueControl.CommandReceiver.ReceiveDto(Object dto) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\CommandReceiver.Generated.cs:Zeile 105.
-   bei GlueControl.CommandReceiver.Receive(String message, Func`2 runPredicate) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\CommandReceiver.Generated.cs:Zeile 79.
-   bei GlueControl.GlueControlManager.ApplySetMessage(String message) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\GlueControlManager.Generated.cs:Zeile 219.
-   bei GlueControl.GlueControlManager.<>c__DisplayClass14_0.<ProcessMessage>b__0() in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\GlueControl\GlueControlManager.Generated.cs:Zeile 205.
-   bei FlatRedBall.Instructions.InstructionManager.<>c__DisplayClass31_0.<DoOnMainThreadAsync>b__0() in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Instructions\InstructionManager.cs:Zeile 157.
-   bei FlatRedBall.Instructions.DelegateInstruction.Execute() in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Instructions\DelegateInstruction.cs:Zeile 45.
-   bei FlatRedBall.Instructions.InstructionManager.Update() in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Instructions\InstructionManager.cs:Zeile 715.
-   bei FlatRedBall.FlatRedBallServices.Update(GameTime gameTime, Section section) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallServices.cs:Zeile 1300.
-   bei FlatRedBall.FlatRedBallServices.Update(GameTime gameTime) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallServices.cs:Zeile 1277.
-   bei ArtyParty.Game1.Update(GameTime gameTime) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Game1.cs:Zeile 98.
-   bei Microsoft.Xna.Framework.Game.DoUpdate(GameTime gameTime)
-   bei Microsoft.Xna.Framework.Game.Tick()
-   bei Microsoft.Xna.Framework.SdlGamePlatform.RunLoop()
+System.IO.FileNotFoundException: Could not find the file C:/Users/Nick_/Documents/FlatRedBallProjects/ArtyParty/ArtyParty/bin/DesktopGL/x86/Debug/content/entities/player/mortar_blast_sound.xnb
+
+   bei FlatRedBall.Content.ContentManager.LoadFromProject[T](String assetName) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Content\ContentManager.cs:Zeile 446.
+   bei FlatRedBall.Content.ContentManager.Load[T](String assetName) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Content\ContentManager.cs:Zeile 420.
+   bei FlatRedBall.FlatRedBallServices.Load[T](String assetName, String contentManagerName) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallServices.cs:Zeile 1096.
+   bei ArtyParty.Entities.Player.LoadStaticContent(String contentManagerName) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Entities\Player.Generated.cs:Zeile 746.
+   bei ArtyParty.Screens.GameScreen.LoadStaticContent(String contentManagerName) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Screens\GameScreen.Generated.cs:Zeile 264.
+   bei ArtyParty.Screens.Level1.LoadStaticContent(String contentManagerName) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Screens\Level1.Generated.cs:Zeile 124.
+   bei ArtyParty.Screens.Level1.Initialize(Boolean addToManagers) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Screens\Level1.Generated.cs:Zeile 29.
+   bei FlatRedBall.Screens.ScreenManager.LoadScreen(String screen) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Screens\ScreenManager.cs:Zeile 436.
+   bei FlatRedBall.Screens.ScreenManager.Start(Type screenToStartWithType) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Screens\ScreenManager.cs:Zeile 341.
+   bei ArtyParty.Game1.Initialize() in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Game1.cs:Zeile 88.
+   bei Microsoft.Xna.Framework.Game.DoInitialize()
    bei Microsoft.Xna.Framework.Game.Run(GameRunBehavior runBehavior)
    bei Microsoft.Xna.Framework.Game.Run()
    bei ArtyParty.Program.Main() in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Program.cs:Zeile 20.

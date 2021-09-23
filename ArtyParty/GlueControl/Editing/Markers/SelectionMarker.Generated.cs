@@ -172,6 +172,9 @@ namespace GlueControl.Editing
             this.Owner = owner;
             rectangle = new AxisAlignedRectangle();
 
+            rectangle.Visible = false;
+            ShapeManager.AddToLayer(rectangle, SpriteManager.TopLayer, makeAutomaticallyUpdated: false);
+
             for (int i = 0; i < handles.Length; i++)
             {
                 handles[i] = new AxisAlignedRectangle();
@@ -179,6 +182,8 @@ namespace GlueControl.Editing
                 handles[i].Width = DefaultHandleDimension;
                 handles[i].Height = DefaultHandleDimension;
 
+                handles[i].Visible = false;
+                ShapeManager.AddToLayer(handles[i], SpriteManager.TopLayer, makeAutomaticallyUpdated: false);
             }
         }
 
@@ -474,12 +479,23 @@ namespace GlueControl.Editing
 
         #region Drag to move/resize
 
+        float lastWorldX = 0;
+        float lastWorldY = 0;
+
         private void ApplyPrimaryDownDragEditing(PositionedObject item, ResizeSide sideGrabbed)
         {
             var cursor = FlatRedBall.Gui.GuiManager.Cursor;
 
-            var didCursorMove =
-                cursor.ScreenXChange != 0 || cursor.ScreenYChange != 0 || CameraLogic.CameraXMovement != 0 || CameraLogic.CameraYMovement != 0;
+            if (cursor.PrimaryPush)
+            {
+                lastWorldX = cursor.WorldX;
+                lastWorldY = cursor.WorldY;
+            }
+
+            var xChange = cursor.WorldX - lastWorldX;
+            var yChange = cursor.WorldY - lastWorldY;
+
+            var didCursorMove = xChange != 0 || yChange != 0;
 
             if (CanMoveItem && cursor.PrimaryDown && didCursorMove)
             {
@@ -488,19 +504,19 @@ namespace GlueControl.Editing
 
                 if (item != null && hasMovedEnough)
                 {
-                    float cursorXChange = cursor.WorldXChangeAt(item.Z) + CameraLogic.CameraXMovement;
-                    float cursorYChange = cursor.WorldYChangeAt(item.Z) + CameraLogic.CameraYMovement;
-
                     if (sideGrabbed == ResizeSide.None)
                     {
-                        LastUpdateMovement = ChangePositionBy(item, cursorXChange, cursorYChange);
+                        LastUpdateMovement = ChangePositionBy(item, xChange, yChange);
                     }
                     else
                     {
-                        ChangeSizeBy(item, sideGrabbed, cursorXChange, cursorYChange);
+                        ChangeSizeBy(item, sideGrabbed, xChange, yChange);
                     }
                 }
             }
+
+            lastWorldX = cursor.WorldX;
+            lastWorldY = cursor.WorldY;
         }
 
 
