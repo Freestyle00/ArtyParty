@@ -515,22 +515,32 @@ namespace ArtyParty.Entities
             }
             if (SpriteInstance.Parent == null)
             {
-                SpriteInstance.X = -224f;
+                SpriteInstance.X = 0f;
             }
             else
             {
-                SpriteInstance.RelativeX = -224f;
+                SpriteInstance.RelativeX = 0f;
             }
             if (SpriteInstance.Parent == null)
             {
-                SpriteInstance.Y = -48f;
+                SpriteInstance.Y = 8f;
             }
             else
             {
-                SpriteInstance.RelativeY = -48f;
+                SpriteInstance.RelativeY = 8f;
+            }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.Z = 1f;
+            }
+            else
+            {
+                SpriteInstance.RelativeZ = 1f;
             }
             SpriteInstance.Texture = Tank_Body_Pixelator;
             SpriteInstance.TextureScale = 1f;
+            SpriteInstance.Width = 48f;
+            SpriteInstance.Height = 48f;
             if (SpriteInstance1.Parent == null)
             {
                 SpriteInstance1.CopyAbsoluteToRelative();
@@ -538,22 +548,22 @@ namespace ArtyParty.Entities
             }
             if (SpriteInstance1.Parent == null)
             {
-                SpriteInstance1.X = 10f;
+                SpriteInstance1.X = 16f;
             }
             else
             {
-                SpriteInstance1.RelativeX = 10f;
+                SpriteInstance1.RelativeX = 16f;
             }
             if (SpriteInstance1.Parent == null)
             {
-                SpriteInstance1.Y = 24f;
+                SpriteInstance1.Y = 14f;
             }
             else
             {
-                SpriteInstance1.RelativeY = 24f;
+                SpriteInstance1.RelativeY = 14f;
             }
             SpriteInstance1.Texture = Tank_Weapon_Pixelator;
-            SpriteInstance1.TextureScale = 0.5f;
+            SpriteInstance1.TextureScale = 0.6532284f;
             SpriteInstance1.Red = 0f;
             if (SpriteInstance1.Parent == null)
             {
@@ -563,6 +573,7 @@ namespace ArtyParty.Entities
             {
                 SpriteInstance1.RelativeRotationZ = 0.052359883f;
             }
+            SpriteInstance1.ParentRotationChangesRotation = true;
             if (mTurret.Parent == null)
             {
                 mTurret.CopyAbsoluteToRelative();
@@ -692,40 +703,50 @@ namespace ArtyParty.Entities
             }
             if (SpriteInstance.Parent == null)
             {
-                SpriteInstance.X = -224f;
+                SpriteInstance.X = 0f;
             }
             else
             {
-                SpriteInstance.RelativeX = -224f;
+                SpriteInstance.RelativeX = 0f;
             }
             if (SpriteInstance.Parent == null)
             {
-                SpriteInstance.Y = -48f;
+                SpriteInstance.Y = 8f;
             }
             else
             {
-                SpriteInstance.RelativeY = -48f;
+                SpriteInstance.RelativeY = 8f;
+            }
+            if (SpriteInstance.Parent == null)
+            {
+                SpriteInstance.Z = 1f;
+            }
+            else
+            {
+                SpriteInstance.RelativeZ = 1f;
             }
             SpriteInstance.Texture = Tank_Body_Pixelator;
             SpriteInstance.TextureScale = 1f;
+            SpriteInstance.Width = 48f;
+            SpriteInstance.Height = 48f;
             if (SpriteInstance1.Parent == null)
             {
-                SpriteInstance1.X = 10f;
+                SpriteInstance1.X = 16f;
             }
             else
             {
-                SpriteInstance1.RelativeX = 10f;
+                SpriteInstance1.RelativeX = 16f;
             }
             if (SpriteInstance1.Parent == null)
             {
-                SpriteInstance1.Y = 24f;
+                SpriteInstance1.Y = 14f;
             }
             else
             {
-                SpriteInstance1.RelativeY = 24f;
+                SpriteInstance1.RelativeY = 14f;
             }
             SpriteInstance1.Texture = Tank_Weapon_Pixelator;
-            SpriteInstance1.TextureScale = 0.5f;
+            SpriteInstance1.TextureScale = 0.6532284f;
             SpriteInstance1.Red = 0f;
             if (SpriteInstance1.Parent == null)
             {
@@ -735,6 +756,7 @@ namespace ArtyParty.Entities
             {
                 SpriteInstance1.RelativeRotationZ = 0.052359883f;
             }
+            SpriteInstance1.ParentRotationChangesRotation = true;
             if (Turret.Parent == null)
             {
                 Turret.X = 0f;

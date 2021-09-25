@@ -21,7 +21,9 @@ namespace ArtyParty.Entities
         private void CustomInitialize()
         {
             Inputcode();
-
+            //The following code is that the turret movement is synchron with the rotation
+            Turret.AttachTo(SpriteInstance1, true);
+            //END
         }
 
         private void CustomActivity()

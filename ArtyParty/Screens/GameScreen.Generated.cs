@@ -153,19 +153,19 @@ namespace ArtyParty.Screens
             CameraControllingEntityInstance.Map = Map;
             if (PlayerInstance.Parent == null)
             {
-                PlayerInstance.X = 72f;
+                PlayerInstance.X = 56f;
             }
             else
             {
-                PlayerInstance.RelativeX = 72f;
+                PlayerInstance.RelativeX = 56f;
             }
             if (PlayerInstance.Parent == null)
             {
-                PlayerInstance.Y = -488f;
+                PlayerInstance.Y = -486f;
             }
             else
             {
-                PlayerInstance.RelativeY = -488f;
+                PlayerInstance.RelativeY = -486f;
             }
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
@@ -202,19 +202,19 @@ namespace ArtyParty.Screens
             CameraControllingEntityInstance.Map = Map;
             if (PlayerInstance.Parent == null)
             {
-                PlayerInstance.X = 72f;
+                PlayerInstance.X = 56f;
             }
             else
             {
-                PlayerInstance.RelativeX = 72f;
+                PlayerInstance.RelativeX = 56f;
             }
             if (PlayerInstance.Parent == null)
             {
-                PlayerInstance.Y = -488f;
+                PlayerInstance.Y = -486f;
             }
             else
             {
-                PlayerInstance.RelativeY = -488f;
+                PlayerInstance.RelativeY = -486f;
             }
         }
         public virtual void ConvertToManuallyUpdated () 

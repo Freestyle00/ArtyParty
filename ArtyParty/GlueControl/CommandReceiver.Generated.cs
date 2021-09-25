@@ -260,6 +260,7 @@ namespace GlueControl
                     ScreenManager.ScreenLoaded += AfterInitializeLogic;
 
                     ScreenManager.CurrentScreen.MoveToScreen(ownerType);
+                    EditorVisuals.DestroyContainedObjects();
 
                     isOwnerScreen = true;
                     EditingManager.Self.ElementEditingMode = GlueControl.Editing.ElementEditingMode.EditingScreen;
@@ -304,6 +305,7 @@ namespace GlueControl
                         FlatRedBall.Screens.ScreenManager.ScreenLoaded += AfterInitializeLogic;
                         FlatRedBall.Screens.ScreenManager.BeforeScreenCustomInitialize += BeforeCustomInitializeLogic;
 
+                        EditorVisuals.DestroyContainedObjects();
 
                         Screens.EntityViewingScreen.GameElementTypeToCreate = GlueToGameElementName(elementNameGlue);
                         Screens.EntityViewingScreen.InstanceToSelect = selectObjectDto.NamedObject;
@@ -660,6 +662,7 @@ namespace GlueControl
 
 
             screen?.RestartScreen(reloadContent: true, applyRestartVariables: applyRestartVariables);
+            EditorVisuals.DestroyContainedObjects();
         }
 
         #endregion

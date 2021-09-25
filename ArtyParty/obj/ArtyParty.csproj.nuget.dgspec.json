@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\users\\nick_\\documents\\flatredballprojects\\artyparty\\ArtyParty\\ArtyParty.csproj": {}
+    "C:\\Users\\Nick_\\Documents\\FlatRedBallProjects\\ArtyParty\\ArtyParty\\ArtyParty.csproj": {}
   },
   "projects": {
-    "c:\\users\\nick_\\documents\\flatredballprojects\\artyparty\\ArtyParty\\ArtyParty.csproj": {
+    "C:\\Users\\Nick_\\Documents\\FlatRedBallProjects\\ArtyParty\\ArtyParty\\ArtyParty.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\users\\nick_\\documents\\flatredballprojects\\artyparty\\ArtyParty\\ArtyParty.csproj",
+        "projectUniqueName": "C:\\Users\\Nick_\\Documents\\FlatRedBallProjects\\ArtyParty\\ArtyParty\\ArtyParty.csproj",
         "projectName": "ArtyParty",
-        "projectPath": "c:\\users\\nick_\\documents\\flatredballprojects\\artyparty\\ArtyParty\\ArtyParty.csproj",
+        "projectPath": "C:\\Users\\Nick_\\Documents\\FlatRedBallProjects\\ArtyParty\\ArtyParty\\ArtyParty.csproj",
         "packagesPath": "C:\\Users\\Nick_\\.nuget\\packages\\",
-        "outputPath": "c:\\users\\nick_\\documents\\flatredballprojects\\artyparty\\ArtyParty\\obj\\",
+        "outputPath": "C:\\Users\\Nick_\\Documents\\FlatRedBallProjects\\ArtyParty\\ArtyParty\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [

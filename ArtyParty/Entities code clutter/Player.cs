@@ -32,6 +32,7 @@ namespace ArtyParty.Entities
 			else if ((VerticalInput.Value < 0 && InputManager.Keyboard.KeyDown(Keys.LeftControl)) && this.Turret.RelativeRotationZ > LOWER_MAXIMUM_TURRET_ROTATION_POINT) Turret.RelativeRotationZVelocity = -FASTER_TURRET_SPEED;
 			else if (VerticalInput.Value < 0 && this.Turret.RelativeRotationZ > LOWER_MAXIMUM_TURRET_ROTATION_POINT) Turret.RelativeRotationZVelocity = -NORMAL_TURRET_SPEED;
 			else Turret.RelativeRotationZVelocity = 0;
+			SpriteInstance1.RelativeRotationZ = Turret.RelativeRotationZ;
 		}
 		void Shooting()
 		{

@@ -645,15 +645,15 @@ namespace GlueControl
 
         private void AddFloatValue(Dtos.AddObjectDto addObjectDto, string name, float value)
         {
-            AddValue(addObjectDto, name, "float", value);
+            AddValueToDto(addObjectDto, name, "float", value);
         }
 
         private void AddStringValue(Dtos.AddObjectDto addObjectDto, string name, string value)
         {
-            AddValue(addObjectDto, name, "string", value);
+            AddValueToDto(addObjectDto, name, "string", value);
         }
 
-        private void AddValue(Dtos.AddObjectDto addObjectDto, string name, string type, object value)
+        private void AddValueToDto(Dtos.AddObjectDto addObjectDto, string name, string type, object value)
         {
             addObjectDto.InstructionSaves.Add(new FlatRedBall.Content.Instructions.InstructionSave
             {
@@ -697,17 +697,33 @@ namespace GlueControl
 
                     if (shouldSend)
                     {
-                        // When applying values to the runtime, don't use the
-                        // NamedObject, because that contains serialized values
-                        // which may need to be converted back. Just use the value
-                        // directly from the copy:
-                        var originalRuntimeValue = LateBinder.GetValueStatic(
-                            original, instructionInOriginal.Member);
+                        object valueToSet = null;
+
+                        try
+                        {
+
+                            // When applying values to the runtime, don't use the
+                            // NamedObject, because that contains serialized values
+                            // which may need to be converted back. Just use the value
+                            // directly from the copy:
+                            var originalRuntimeValue = LateBinder.GetValueStatic(
+                                original, instructionInOriginal.Member);
+                            valueToSet = originalRuntimeValue;
+                        }
+                        catch
+                        {
+                            // There are some properties (like paths on PathInstance) which
+                            // can only be set, not gotten. Therefore, we should try/catch here
+                            // and tolerate values that can't be obtained through a get call.
+                            // If there is a failure, fall back to the instruction:
+
+                            valueToSet = instructionInOriginal.Value;
+                        }
 
                         // apply it on the copy
                         LateBinder.SetValueStatic(
                             newInstance, instructionInOriginal.Member,
-                            originalRuntimeValue);
+                            valueToSet);
 
                     }
                 }
@@ -728,10 +744,21 @@ namespace GlueControl
 
             foreach (var newInstanceProperty in properties)
             {
-                var oldPropertyValue = newInstanceProperty.GetValue(original);
-                var newPropertyValue = newInstanceProperty.GetValue(newInstance);
+                var didFailToGetProperty = false;
 
-                if (oldPropertyValue != newPropertyValue)
+                object oldPropertyValue = null;
+                object newPropertyValue = null;
+
+                try
+                {
+                    oldPropertyValue = newInstanceProperty.GetValue(original);
+                    newPropertyValue = newInstanceProperty.GetValue(newInstance);
+                }
+                catch
+                {
+                    didFailToGetProperty = true;
+                }
+                if (oldPropertyValue != newPropertyValue && !didFailToGetProperty)
                 {
                     // they differ, so we should set and DTO it
                     // But how do we know what to set and what not to set? I think we should whitelist...
@@ -762,7 +789,7 @@ namespace GlueControl
                             }
                         }
 
-                        AddValue(addObjectDto, newInstanceProperty.Name, type, value);
+                        AddValueToDto(addObjectDto, newInstanceProperty.Name, type, value);
                     }
                 }
             }
@@ -930,7 +957,7 @@ namespace GlueControl
             AddFloatValue(addObjectDto, "X", newPolygon.X);
             AddFloatValue(addObjectDto, "Y", newPolygon.Y);
 
-            AddValue(addObjectDto, "Points", typeof(List<Point>).ToString(),
+            AddValueToDto(addObjectDto, "Points", typeof(List<Point>).ToString(),
                 Newtonsoft.Json.JsonConvert.SerializeObject(newPolygon.Points.ToList()));
 
             #endregion
@@ -976,7 +1003,7 @@ namespace GlueControl
             if (newSprite.Texture != null)
             {
                 // Texture must be assigned before pixel values.
-                AddValue(addObjectDto, "Texture", typeof(Microsoft.Xna.Framework.Graphics.Texture2D).FullName,
+                AddValueToDto(addObjectDto, "Texture", typeof(Microsoft.Xna.Framework.Graphics.Texture2D).FullName,
                     newSprite.Texture.Name);
 
                 // Glue uses the pixel coords, but we can check the coordinates more easily
@@ -999,7 +1026,7 @@ namespace GlueControl
             }
             if (newSprite.AnimationChains?.Name != null)
             {
-                AddValue(addObjectDto, "AnimationChains", typeof(FlatRedBall.Graphics.Animation.AnimationChainList).FullName,
+                AddValueToDto(addObjectDto, "AnimationChains", typeof(FlatRedBall.Graphics.Animation.AnimationChainList).FullName,
                     newSprite.AnimationChains.Name);
             }
             if (!string.IsNullOrEmpty(newSprite.CurrentChainName))
@@ -1008,7 +1035,7 @@ namespace GlueControl
             }
             if (newSprite.TextureAddressMode != Microsoft.Xna.Framework.Graphics.TextureAddressMode.Clamp)
             {
-                AddValue(addObjectDto, nameof(newSprite.TextureAddressMode),
+                AddValueToDto(addObjectDto, nameof(newSprite.TextureAddressMode),
                     nameof(Microsoft.Xna.Framework.Graphics.TextureAddressMode), (int)newSprite.TextureAddressMode);
             }
             if (newSprite.Red != 0.0f)
@@ -1029,12 +1056,12 @@ namespace GlueControl
             }
             if (newSprite.ColorOperation != ColorOperation.Texture)
             {
-                AddValue(addObjectDto, nameof(newSprite.ColorOperation),
+                AddValueToDto(addObjectDto, nameof(newSprite.ColorOperation),
                     nameof(ColorOperation), (int)newSprite.ColorOperation);
             }
             if (newSprite.BlendOperation != BlendOperation.Regular)
             {
-                AddValue(addObjectDto, nameof(newSprite.BlendOperation),
+                AddValueToDto(addObjectDto, nameof(newSprite.BlendOperation),
                     nameof(BlendOperation), (int)newSprite.BlendOperation);
             }
 
@@ -1043,12 +1070,12 @@ namespace GlueControl
             // that value on Glue but if it's animated that would get overwritten anyway, so maybe it's no biggie?
             if (newSprite.FlipHorizontal != false)
             {
-                AddValue(addObjectDto, nameof(newSprite.FlipHorizontal),
+                AddValueToDto(addObjectDto, nameof(newSprite.FlipHorizontal),
                     "bool", newSprite.FlipHorizontal);
             }
             if (newSprite.FlipVertical != false)
             {
-                AddValue(addObjectDto, nameof(newSprite.FlipVertical),
+                AddValueToDto(addObjectDto, nameof(newSprite.FlipVertical),
                     "bool", newSprite.FlipVertical);
             }
 
@@ -1081,10 +1108,10 @@ namespace GlueControl
             AddFloatValue(addObjectDto, "X", newText.X);
             AddFloatValue(addObjectDto, "Y", newText.Y);
 
-            AddValue(addObjectDto, nameof(Text.DisplayText), "string", newText.DisplayText);
+            AddValueToDto(addObjectDto, nameof(Text.DisplayText), "string", newText.DisplayText);
 
-            AddValue(addObjectDto, nameof(Text.HorizontalAlignment), nameof(HorizontalAlignment), (int)newText.HorizontalAlignment);
-            AddValue(addObjectDto, nameof(Text.VerticalAlignment), nameof(VerticalAlignment), (int)newText.VerticalAlignment);
+            AddValueToDto(addObjectDto, nameof(Text.HorizontalAlignment), nameof(HorizontalAlignment), (int)newText.HorizontalAlignment);
+            AddValueToDto(addObjectDto, nameof(Text.VerticalAlignment), nameof(VerticalAlignment), (int)newText.VerticalAlignment);
 
             if (newText.Red != 0.0f)
             {
@@ -1104,12 +1131,12 @@ namespace GlueControl
             }
             if (newText.ColorOperation != ColorOperation.Texture)
             {
-                AddValue(addObjectDto, nameof(newText.ColorOperation),
+                AddValueToDto(addObjectDto, nameof(newText.ColorOperation),
                     nameof(ColorOperation), (int)newText.ColorOperation);
             }
             if (newText.BlendOperation != BlendOperation.Regular)
             {
-                AddValue(addObjectDto, nameof(newText.BlendOperation),
+                AddValueToDto(addObjectDto, nameof(newText.BlendOperation),
                     nameof(BlendOperation), (int)newText.BlendOperation);
             }
 
