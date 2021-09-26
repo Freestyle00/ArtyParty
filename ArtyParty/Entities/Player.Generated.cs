@@ -30,19 +30,6 @@ namespace ArtyParty.Entities
         protected static Microsoft.Xna.Framework.Graphics.Texture2D Tank_Weapon_Pixelator;
         
         private FlatRedBall.Sprite SpriteInstance;
-        private FlatRedBall.Sprite SpriteInstance1;
-        private FlatRedBall.Math.Geometry.Polygon mTurret;
-        public FlatRedBall.Math.Geometry.Polygon Turret
-        {
-            get
-            {
-                return mTurret;
-            }
-            private set
-            {
-                mTurret = value;
-            }
-        }
         private FlatRedBall.Math.Geometry.AxisAlignedRectangle mMainTankBody;
         public FlatRedBall.Math.Geometry.AxisAlignedRectangle MainTankBody
         {
@@ -79,6 +66,7 @@ namespace ArtyParty.Entities
                 mTracks = value;
             }
         }
+        private ArtyParty.Entities.PlayerTurret PlayerTurretInstance;
         public event Action<ArtyParty.DataTypes.PlatformerValues> BeforeGroundMovementSet;
         public event System.EventHandler AfterGroundMovementSet;
         private ArtyParty.DataTypes.PlatformerValues mGroundMovement;
@@ -384,12 +372,6 @@ namespace ArtyParty.Entities
             SpriteInstance = new FlatRedBall.Sprite();
             SpriteInstance.Name = "SpriteInstance";
             SpriteInstance.CreationSource = "Glue";
-            SpriteInstance1 = new FlatRedBall.Sprite();
-            SpriteInstance1.Name = "SpriteInstance1";
-            SpriteInstance1.CreationSource = "Glue";
-            mTurret = new FlatRedBall.Math.Geometry.Polygon();
-            mTurret.Name = "Turret";
-            mTurret.CreationSource = "Glue";
             mMainTankBody = new FlatRedBall.Math.Geometry.AxisAlignedRectangle();
             mMainTankBody.Name = "MainTankBody";
             mMainTankBody.CreationSource = "Glue";
@@ -399,6 +381,9 @@ namespace ArtyParty.Entities
             mTracks = new FlatRedBall.Math.Geometry.AxisAlignedRectangle();
             mTracks.Name = "Tracks";
             mTracks.CreationSource = "Glue";
+            PlayerTurretInstance = new ArtyParty.Entities.PlayerTurret(ContentManagerName, false);
+            PlayerTurretInstance.Name = "PlayerTurretInstance";
+            PlayerTurretInstance.CreationSource = "Glue";
             
             // this provides default controls for the platformer using either keyboad or 360. Can be overridden in custom code:
             this.InitializeInput();
@@ -443,22 +428,20 @@ namespace ArtyParty.Entities
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(SpriteInstance, LayerProvidedByContainer);
-            FlatRedBall.SpriteManager.AddToLayer(SpriteInstance1, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mTurret, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mMainTankBody, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mGunHolder, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mTracks, LayerProvidedByContainer);
+            PlayerTurretInstance.ReAddToManagers(LayerProvidedByContainer);
         }
         public virtual void AddToManagers (FlatRedBall.Graphics.Layer layerToAddTo) 
         {
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(SpriteInstance, LayerProvidedByContainer);
-            FlatRedBall.SpriteManager.AddToLayer(SpriteInstance1, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mTurret, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mMainTankBody, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mGunHolder, LayerProvidedByContainer);
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mTracks, LayerProvidedByContainer);
+            PlayerTurretInstance.AddToManagers(LayerProvidedByContainer);
             CurrentMovementType = MovementType.Ground;
             AddToManagersBottomUp(layerToAddTo);
             CustomInitialize();
@@ -466,6 +449,7 @@ namespace ArtyParty.Entities
         public virtual void Activity () 
         {
             
+            PlayerTurretInstance.Activity();
             
             ApplyInput();
 
@@ -481,14 +465,6 @@ namespace ArtyParty.Entities
             {
                 FlatRedBall.SpriteManager.RemoveSprite(SpriteInstance);
             }
-            if (SpriteInstance1 != null)
-            {
-                FlatRedBall.SpriteManager.RemoveSprite(SpriteInstance1);
-            }
-            if (Turret != null)
-            {
-                FlatRedBall.Math.Geometry.ShapeManager.Remove(Turret);
-            }
             if (MainTankBody != null)
             {
                 FlatRedBall.Math.Geometry.ShapeManager.Remove(MainTankBody);
@@ -500,6 +476,11 @@ namespace ArtyParty.Entities
             if (Tracks != null)
             {
                 FlatRedBall.Math.Geometry.ShapeManager.Remove(Tracks);
+            }
+            if (PlayerTurretInstance != null)
+            {
+                PlayerTurretInstance.Destroy();
+                PlayerTurretInstance.Detach();
             }
             mGeneratedCollision.RemoveFromManagers(clearThis: false);
             CustomDestroy();
@@ -541,74 +522,6 @@ namespace ArtyParty.Entities
             SpriteInstance.TextureScale = 1f;
             SpriteInstance.Width = 48f;
             SpriteInstance.Height = 48f;
-            if (SpriteInstance1.Parent == null)
-            {
-                SpriteInstance1.CopyAbsoluteToRelative();
-                SpriteInstance1.AttachTo(this, false);
-            }
-            if (SpriteInstance1.Parent == null)
-            {
-                SpriteInstance1.X = 16f;
-            }
-            else
-            {
-                SpriteInstance1.RelativeX = 16f;
-            }
-            if (SpriteInstance1.Parent == null)
-            {
-                SpriteInstance1.Y = 14f;
-            }
-            else
-            {
-                SpriteInstance1.RelativeY = 14f;
-            }
-            SpriteInstance1.Texture = Tank_Weapon_Pixelator;
-            SpriteInstance1.TextureScale = 0.6532284f;
-            SpriteInstance1.Red = 0f;
-            if (SpriteInstance1.Parent == null)
-            {
-                SpriteInstance1.RotationZ = 0.052359883f;
-            }
-            else
-            {
-                SpriteInstance1.RelativeRotationZ = 0.052359883f;
-            }
-            SpriteInstance1.ParentRotationChangesRotation = true;
-            if (mTurret.Parent == null)
-            {
-                mTurret.CopyAbsoluteToRelative();
-                mTurret.AttachTo(this, false);
-            }
-            if (Turret.Parent == null)
-            {
-                Turret.X = 0f;
-            }
-            else
-            {
-                Turret.RelativeX = 0f;
-            }
-            if (Turret.Parent == null)
-            {
-                Turret.Y = 9f;
-            }
-            else
-            {
-                Turret.RelativeY = 9f;
-            }
-            if (Turret.Parent == null)
-            {
-                Turret.RotationZ = 0.052359883f;
-            }
-            else
-            {
-                Turret.RelativeRotationZ = 0.052359883f;
-            }
-            Turret.Color = Microsoft.Xna.Framework.Color.Turquoise;
-            Turret.IgnoreParentPosition = false;
-            Turret.ParentRotationChangesPosition = false;
-            Turret.ParentRotationChangesRotation = false;
-            FlatRedBall.Math.Geometry.Point[] TurretPoints = new FlatRedBall.Math.Geometry.Point[] {new FlatRedBall.Math.Geometry.Point(0, 0), new FlatRedBall.Math.Geometry.Point(40, 0), new FlatRedBall.Math.Geometry.Point(40, 1.5), new FlatRedBall.Math.Geometry.Point(40, 3), new FlatRedBall.Math.Geometry.Point(0, 3), new FlatRedBall.Math.Geometry.Point(0, 0) };
-            Turret.Points = TurretPoints;
             if (mMainTankBody.Parent == null)
             {
                 mMainTankBody.CopyAbsoluteToRelative();
@@ -657,6 +570,11 @@ namespace ArtyParty.Entities
             Tracks.Width = 36f;
             Tracks.Height = 5f;
             Tracks.Color = Microsoft.Xna.Framework.Color.Blue;
+            if (PlayerTurretInstance.Parent == null)
+            {
+                PlayerTurretInstance.CopyAbsoluteToRelative();
+                PlayerTurretInstance.AttachTo(this, false);
+            }
             mGeneratedCollision = new FlatRedBall.Math.Geometry.ShapeCollection();
             Collision.AxisAlignedRectangles.AddOneWay(mMainTankBody);
             Collision.AxisAlignedRectangles.AddOneWay(mGunHolder);
@@ -674,14 +592,6 @@ namespace ArtyParty.Entities
             {
                 FlatRedBall.SpriteManager.RemoveSpriteOneWay(SpriteInstance);
             }
-            if (SpriteInstance1 != null)
-            {
-                FlatRedBall.SpriteManager.RemoveSpriteOneWay(SpriteInstance1);
-            }
-            if (Turret != null)
-            {
-                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(Turret);
-            }
             if (MainTankBody != null)
             {
                 FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(MainTankBody);
@@ -694,12 +604,14 @@ namespace ArtyParty.Entities
             {
                 FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(Tracks);
             }
+            PlayerTurretInstance.RemoveFromManagers();
             mGeneratedCollision.RemoveFromManagers(clearThis: false);
         }
         public virtual void AssignCustomVariables (bool callOnContainedElements) 
         {
             if (callOnContainedElements)
             {
+                PlayerTurretInstance.AssignCustomVariables(true);
             }
             if (SpriteInstance.Parent == null)
             {
@@ -729,62 +641,6 @@ namespace ArtyParty.Entities
             SpriteInstance.TextureScale = 1f;
             SpriteInstance.Width = 48f;
             SpriteInstance.Height = 48f;
-            if (SpriteInstance1.Parent == null)
-            {
-                SpriteInstance1.X = 16f;
-            }
-            else
-            {
-                SpriteInstance1.RelativeX = 16f;
-            }
-            if (SpriteInstance1.Parent == null)
-            {
-                SpriteInstance1.Y = 14f;
-            }
-            else
-            {
-                SpriteInstance1.RelativeY = 14f;
-            }
-            SpriteInstance1.Texture = Tank_Weapon_Pixelator;
-            SpriteInstance1.TextureScale = 0.6532284f;
-            SpriteInstance1.Red = 0f;
-            if (SpriteInstance1.Parent == null)
-            {
-                SpriteInstance1.RotationZ = 0.052359883f;
-            }
-            else
-            {
-                SpriteInstance1.RelativeRotationZ = 0.052359883f;
-            }
-            SpriteInstance1.ParentRotationChangesRotation = true;
-            if (Turret.Parent == null)
-            {
-                Turret.X = 0f;
-            }
-            else
-            {
-                Turret.RelativeX = 0f;
-            }
-            if (Turret.Parent == null)
-            {
-                Turret.Y = 9f;
-            }
-            else
-            {
-                Turret.RelativeY = 9f;
-            }
-            if (Turret.Parent == null)
-            {
-                Turret.RotationZ = 0.052359883f;
-            }
-            else
-            {
-                Turret.RelativeRotationZ = 0.052359883f;
-            }
-            Turret.Color = Microsoft.Xna.Framework.Color.Turquoise;
-            Turret.IgnoreParentPosition = false;
-            Turret.ParentRotationChangesPosition = false;
-            Turret.ParentRotationChangesRotation = false;
             MainTankBody.Width = 32f;
             MainTankBody.Height = 10f;
             MainTankBody.Color = Microsoft.Xna.Framework.Color.Blue;
@@ -826,7 +682,7 @@ namespace ArtyParty.Entities
             this.ForceUpdateDependenciesDeep();
             FlatRedBall.SpriteManager.ConvertToManuallyUpdated(this);
             FlatRedBall.SpriteManager.ConvertToManuallyUpdated(SpriteInstance);
-            FlatRedBall.SpriteManager.ConvertToManuallyUpdated(SpriteInstance1);
+            PlayerTurretInstance.ConvertToManuallyUpdated();
         }
         public static void LoadStaticContent (string contentManagerName) 
         {
@@ -887,6 +743,7 @@ namespace ArtyParty.Entities
                 }
                 Tank_Weapon_Pixelator = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Graphics.Texture2D>(@"content/entities/player/tank_weapon_pixelator.png", ContentManagerName);
             }
+            ArtyParty.Entities.PlayerTurret.LoadStaticContent(contentManagerName);
             if (registerUnload && ContentManagerName != FlatRedBall.FlatRedBallServices.GlobalContentManager)
             {
                 lock (mLockObject)
@@ -1008,11 +865,10 @@ namespace ArtyParty.Entities
         {
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(this);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(SpriteInstance);
-            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(SpriteInstance1);
-            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(Turret);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(MainTankBody);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(GunHolder);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(Tracks);
+            PlayerTurretInstance.SetToIgnorePausing();
         }
         
 
@@ -1691,19 +1547,6 @@ namespace ArtyParty.Entities
             }
             if (layerToRemoveFrom != null)
             {
-                layerToRemoveFrom.Remove(SpriteInstance1);
-            }
-            if (layerToMoveTo != null || !SpriteManager.AutomaticallyUpdatedSprites.Contains(SpriteInstance1))
-            {
-                FlatRedBall.SpriteManager.AddToLayer(SpriteInstance1, layerToMoveTo);
-            }
-            if (layerToRemoveFrom != null)
-            {
-                layerToRemoveFrom.Remove(Turret);
-            }
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(Turret, layerToMoveTo);
-            if (layerToRemoveFrom != null)
-            {
                 layerToRemoveFrom.Remove(MainTankBody);
             }
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(MainTankBody, layerToMoveTo);
@@ -1717,6 +1560,7 @@ namespace ArtyParty.Entities
                 layerToRemoveFrom.Remove(Tracks);
             }
             FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(Tracks, layerToMoveTo);
+            PlayerTurretInstance.MoveToLayer(layerToMoveTo);
             LayerProvidedByContainer = layerToMoveTo;
         }
         partial void CustomActivityEditMode();

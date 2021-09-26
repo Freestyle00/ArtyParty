@@ -28,16 +28,16 @@ namespace ArtyParty.Entities.Projectiles
         protected static Microsoft.Xna.Framework.Graphics.Texture2D Proyectile_2_pixelart;
         
         private FlatRedBall.Sprite SpriteInstance;
-        private FlatRedBall.Math.Geometry.Polygon mPolygonInstance;
-        public FlatRedBall.Math.Geometry.Polygon PolygonInstance
+        private FlatRedBall.Math.Geometry.Circle mCircleInstance;
+        public FlatRedBall.Math.Geometry.Circle CircleInstance
         {
             get
             {
-                return mPolygonInstance;
+                return mCircleInstance;
             }
             private set
             {
-                mPolygonInstance = value;
+                mCircleInstance = value;
             }
         }
         public event Action<ArtyParty.DataTypes.PlatformerValues> BeforeGroundMovementSet;
@@ -138,9 +138,9 @@ namespace ArtyParty.Entities.Projectiles
             SpriteInstance = new FlatRedBall.Sprite();
             SpriteInstance.Name = "SpriteInstance";
             SpriteInstance.CreationSource = "Glue";
-            mPolygonInstance = new FlatRedBall.Math.Geometry.Polygon();
-            mPolygonInstance.Name = "PolygonInstance";
-            mPolygonInstance.CreationSource = "Glue";
+            mCircleInstance = new FlatRedBall.Math.Geometry.Circle();
+            mCircleInstance.Name = "CircleInstance";
+            mCircleInstance.CreationSource = "Glue";
             
             PostInitialize();
             if (addToManagers)
@@ -153,14 +153,14 @@ namespace ArtyParty.Entities.Projectiles
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(SpriteInstance, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mPolygonInstance, LayerProvidedByContainer);
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mCircleInstance, LayerProvidedByContainer);
         }
         public virtual void AddToManagers (FlatRedBall.Graphics.Layer layerToAddTo) 
         {
             LayerProvidedByContainer = layerToAddTo;
             FlatRedBall.SpriteManager.AddPositionedObject(this);
             FlatRedBall.SpriteManager.AddToLayer(SpriteInstance, LayerProvidedByContainer);
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mPolygonInstance, LayerProvidedByContainer);
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(mCircleInstance, LayerProvidedByContainer);
             AddToManagersBottomUp(layerToAddTo);
             CustomInitialize();
         }
@@ -182,9 +182,9 @@ namespace ArtyParty.Entities.Projectiles
             {
                 FlatRedBall.SpriteManager.RemoveSpriteOneWay(SpriteInstance);
             }
-            if (PolygonInstance != null)
+            if (CircleInstance != null)
             {
-                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(PolygonInstance);
+                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(CircleInstance);
             }
             mGeneratedCollision.RemoveFromManagers(clearThis: false);
             CustomDestroy();
@@ -198,32 +198,34 @@ namespace ArtyParty.Entities.Projectiles
                 SpriteInstance.CopyAbsoluteToRelative();
                 SpriteInstance.AttachTo(this, false);
             }
-            SpriteInstance.TextureScale = 1f;
-            if (mPolygonInstance.Parent == null)
+            if (SpriteInstance.Parent == null)
             {
-                mPolygonInstance.CopyAbsoluteToRelative();
-                mPolygonInstance.AttachTo(this, false);
-            }
-            if (PolygonInstance.Parent == null)
-            {
-                PolygonInstance.X = 0f;
+                SpriteInstance.X = 0f;
             }
             else
             {
-                PolygonInstance.RelativeX = 0f;
+                SpriteInstance.RelativeX = 0f;
             }
-            if (PolygonInstance.Parent == null)
+            if (SpriteInstance.Parent == null)
             {
-                PolygonInstance.Y = 0f;
+                SpriteInstance.Y = 0f;
             }
             else
             {
-                PolygonInstance.RelativeY = 0f;
+                SpriteInstance.RelativeY = 0f;
             }
-            FlatRedBall.Math.Geometry.Point[] PolygonInstancePoints = new FlatRedBall.Math.Geometry.Point[] {new FlatRedBall.Math.Geometry.Point(0, 0), new FlatRedBall.Math.Geometry.Point(2, 0), new FlatRedBall.Math.Geometry.Point(2, 3), new FlatRedBall.Math.Geometry.Point(1, 5), new FlatRedBall.Math.Geometry.Point(0, 3), new FlatRedBall.Math.Geometry.Point(0, 0) };
-            PolygonInstance.Points = PolygonInstancePoints;
+            SpriteInstance.Texture = Proyectile_2_pixelart;
+            SpriteInstance.TextureScale = 0.30936873f;
+            SpriteInstance.Width = 16f;
+            SpriteInstance.Height = 16f;
+            if (mCircleInstance.Parent == null)
+            {
+                mCircleInstance.CopyAbsoluteToRelative();
+                mCircleInstance.AttachTo(this, false);
+            }
+            CircleInstance.Radius = 4.000001f;
             mGeneratedCollision = new FlatRedBall.Math.Geometry.ShapeCollection();
-            Collision.Polygons.AddOneWay(mPolygonInstance);
+            Collision.Circles.AddOneWay(mCircleInstance);
             FlatRedBall.Math.Geometry.ShapeManager.SuppressAddingOnVisibilityTrue = oldShapeManagerSuppressAdd;
         }
         public virtual void AddToManagersBottomUp (FlatRedBall.Graphics.Layer layerToAddTo) 
@@ -237,9 +239,9 @@ namespace ArtyParty.Entities.Projectiles
             {
                 FlatRedBall.SpriteManager.RemoveSpriteOneWay(SpriteInstance);
             }
-            if (PolygonInstance != null)
+            if (CircleInstance != null)
             {
-                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(PolygonInstance);
+                FlatRedBall.Math.Geometry.ShapeManager.RemoveOneWay(CircleInstance);
             }
             mGeneratedCollision.RemoveFromManagers(clearThis: false);
         }
@@ -248,23 +250,27 @@ namespace ArtyParty.Entities.Projectiles
             if (callOnContainedElements)
             {
             }
-            SpriteInstance.TextureScale = 1f;
-            if (PolygonInstance.Parent == null)
+            if (SpriteInstance.Parent == null)
             {
-                PolygonInstance.X = 0f;
+                SpriteInstance.X = 0f;
             }
             else
             {
-                PolygonInstance.RelativeX = 0f;
+                SpriteInstance.RelativeX = 0f;
             }
-            if (PolygonInstance.Parent == null)
+            if (SpriteInstance.Parent == null)
             {
-                PolygonInstance.Y = 0f;
+                SpriteInstance.Y = 0f;
             }
             else
             {
-                PolygonInstance.RelativeY = 0f;
+                SpriteInstance.RelativeY = 0f;
             }
+            SpriteInstance.Texture = Proyectile_2_pixelart;
+            SpriteInstance.TextureScale = 0.30936873f;
+            SpriteInstance.Width = 16f;
+            SpriteInstance.Height = 16f;
+            CircleInstance.Radius = 4.000001f;
             GroundMovement = Entities.Projectiles.Armor_Piercing_round.PlatformerValuesStatic["Ground"];
             AirMovement = Entities.Projectiles.Armor_Piercing_round.PlatformerValuesStatic["Air"];
         }
@@ -418,7 +424,7 @@ namespace ArtyParty.Entities.Projectiles
         {
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(this);
             FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(SpriteInstance);
-            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(PolygonInstance);
+            FlatRedBall.Instructions.InstructionManager.IgnorePausingFor(CircleInstance);
         }
         public virtual void MoveToLayer (FlatRedBall.Graphics.Layer layerToMoveTo) 
         {
@@ -433,9 +439,9 @@ namespace ArtyParty.Entities.Projectiles
             }
             if (layerToRemoveFrom != null)
             {
-                layerToRemoveFrom.Remove(PolygonInstance);
+                layerToRemoveFrom.Remove(CircleInstance);
             }
-            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(PolygonInstance, layerToMoveTo);
+            FlatRedBall.Math.Geometry.ShapeManager.AddToLayer(CircleInstance, layerToMoveTo);
             LayerProvidedByContainer = layerToMoveTo;
         }
         partial void CustomActivityEditMode();

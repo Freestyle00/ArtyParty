@@ -21,14 +21,14 @@ namespace ArtyParty.Screens
 
         void CustomInitialize()
         {
-            
+
 
         }
 
         void CustomActivity(bool firstTimeCalled)
         {
-
-
+            
+            
         }
 
         void CustomDestroy()

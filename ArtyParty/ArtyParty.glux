@@ -28,6 +28,18 @@
           <RuntimeType>ArtyParty.GumRuntimes.GameScreenGumRuntime</RuntimeType>
           <ProjectsToExcludeFrom />
         </ReferencedFileSave>
+        <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
+          <Name>Entities/Player/Mortar_Blast_Sound.wav</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>Microsoft.Xna.Framework.Audio.SoundEffect</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
       </ReferencedFiles>
       <IsHiddenInTreeView>false</IsHiddenInTreeView>
       <NamedObjects>
@@ -720,6 +732,11 @@
       <NamedObjects>
         <NamedObjectSave>
           <CustomProperty>
+            <Type>float</Type>
+            <Member>Height</Member>
+            <ValueAsFloat>48</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
             <Type>Microsoft.Xna.Framework.Graphics.Texture2D</Type>
             <Member>Texture</Member>
             <ValueAsString>Tank_Body_Pixelator</ValueAsString>
@@ -731,6 +748,11 @@
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
+            <Member>Width</Member>
+            <ValueAsFloat>48</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
             <Member>X</Member>
             <ValueAsFloat>0</ValueAsFloat>
           </CustomProperty>
@@ -738,16 +760,6 @@
             <Type>float</Type>
             <Member>Y</Member>
             <ValueAsFloat>8</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Width</Member>
-            <ValueAsFloat>48</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Height</Member>
-            <ValueAsFloat>48</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -770,145 +782,6 @@
           <InstanceName>SpriteInstance</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
-          <IndependentOfCamera>false</IndependentOfCamera>
-        </NamedObjectSave>
-        <NamedObjectSave>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Red</Member>
-            <ValueAsFloat>0</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>RotationZ</Member>
-            <ValueAsFloat>0.052359883</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>Microsoft.Xna.Framework.Graphics.Texture2D</Type>
-            <Member>Texture</Member>
-            <ValueAsString>Tank_Weapon_Pixelator</ValueAsString>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>TextureScale</Member>
-            <ValueAsFloat>0.6532284</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>16</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Y</Member>
-            <ValueAsFloat>14</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
-            <Member>ParentRotationChangesRotation</Member>
-            <ValueAsBool>true</ValueAsBool>
-          </CustomProperty>
-          <Properties>
-            <PropertySave>
-              <Name>AssociateWithFactory</Name>
-              <ValueAsBool>true</ValueAsBool>
-            </PropertySave>
-            <PropertySave>
-              <Name>SourceType</Name>
-              <ValueAsObject xsi:type="SourceType">FlatRedBallType</ValueAsObject>
-            </PropertySave>
-          </Properties>
-          <SourceType>FlatRedBallType</SourceType>
-          <SourceFile>Sprite</SourceFile>
-          <SourceClassType>FlatRedBall.Sprite</SourceClassType>
-          <InstanceName>SpriteInstance1</InstanceName>
-          <AttachToContainer>true</AttachToContainer>
-          <GenerateTimedEmit>true</GenerateTimedEmit>
-          <IndependentOfCamera>false</IndependentOfCamera>
-        </NamedObjectSave>
-        <NamedObjectSave>
-          <CustomProperty>
-            <Type>Microsoft.Xna.Framework.Color</Type>
-            <Member>Color</Member>
-            <ValueAsString>Turquoise</ValueAsString>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
-            <Member>IgnoreParentPosition</Member>
-            <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
-            <Member>ParentRotationChangesPosition</Member>
-            <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>bool</Type>
-            <Member>ParentRotationChangesRotation</Member>
-            <ValueAsBool>false</ValueAsBool>
-          </CustomProperty>
-          <CustomProperty>
-            <Member>Points</Member>
-            <ValueAsListOfVector2>
-              <Vector2>
-                <X>0</X>
-                <Y>0</Y>
-              </Vector2>
-              <Vector2>
-                <X>40</X>
-                <Y>0</Y>
-              </Vector2>
-              <Vector2>
-                <X>40</X>
-                <Y>1.5</Y>
-              </Vector2>
-              <Vector2>
-                <X>40</X>
-                <Y>3</Y>
-              </Vector2>
-              <Vector2>
-                <X>0</X>
-                <Y>3</Y>
-              </Vector2>
-              <Vector2>
-                <X>0</X>
-                <Y>0</Y>
-              </Vector2>
-            </ValueAsListOfVector2>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>RotationZ</Member>
-            <ValueAsFloat>0.052359883</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>X</Member>
-            <ValueAsFloat>0</ValueAsFloat>
-          </CustomProperty>
-          <CustomProperty>
-            <Type>float</Type>
-            <Member>Y</Member>
-            <ValueAsFloat>9</ValueAsFloat>
-          </CustomProperty>
-          <Properties>
-            <PropertySave>
-              <Name>AssociateWithFactory</Name>
-              <ValueAsBool>true</ValueAsBool>
-            </PropertySave>
-            <PropertySave>
-              <Name>SourceType</Name>
-              <ValueAsObject xsi:type="SourceType">FlatRedBallType</ValueAsObject>
-            </PropertySave>
-          </Properties>
-          <SourceType>FlatRedBallType</SourceType>
-          <SourceFile>Polygon</SourceFile>
-          <SourceClassType>FlatRedBall.Math.Geometry.Polygon</SourceClassType>
-          <InstanceName>Turret</InstanceName>
-          <HasPublicProperty>true</HasPublicProperty>
-          <AttachToContainer>true</AttachToContainer>
-          <GenerateTimedEmit>true</GenerateTimedEmit>
-          <IncludeInICollidable>false</IncludeInICollidable>
           <IndependentOfCamera>false</IndependentOfCamera>
         </NamedObjectSave>
         <NamedObjectSave>
@@ -1031,10 +904,231 @@
           <GenerateTimedEmit>true</GenerateTimedEmit>
           <IndependentOfCamera>false</IndependentOfCamera>
         </NamedObjectSave>
+        <NamedObjectSave>
+          <Properties>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+            <PropertySave>
+              <Name>SourceType</Name>
+              <ValueAsObject xsi:type="SourceType">Entity</ValueAsObject>
+            </PropertySave>
+          </Properties>
+          <SourceType>Entity</SourceType>
+          <SourceFile>Entities/PlayerTurret</SourceFile>
+          <SourceClassType>Entities\PlayerTurret</SourceClassType>
+          <InstanceName>PlayerTurretInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>false</IndependentOfCamera>
+        </NamedObjectSave>
       </NamedObjects>
       <Name>Entities\Player</Name>
       <CustomClassesForExport />
       <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
+      <Is2D>true</Is2D>
+    </EntitySave>
+    <EntitySave>
+      <Tags>
+        <string>GLUE</string>
+      </Tags>
+      <Source>GLUE</Source>
+      <UseGlobalContent>false</UseGlobalContent>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>Entities/Player/Tank_Weapon_Pixelator.png</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+          <RuntimeType>Microsoft.Xna.Framework.Graphics.Texture2D</RuntimeType>
+          <ProjectsToExcludeFrom />
+        </ReferencedFileSave>
+      </ReferencedFiles>
+      <IsHiddenInTreeView>false</IsHiddenInTreeView>
+      <CustomVariables>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>X</Name>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>Y</Name>
+        </CustomVariable>
+        <CustomVariable>
+          <Properties>
+            <PropertySave>
+              <Name>Type</Name>
+              <ValueAsString>float</ValueAsString>
+            </PropertySave>
+          </Properties>
+          <Name>Z</Name>
+        </CustomVariable>
+      </CustomVariables>
+      <Properties>
+        <PropertySave>
+          <Name>InputDevice</Name>
+          <ValueAsInt>0</ValueAsInt>
+        </PropertySave>
+      </Properties>
+      <NamedObjects>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>ParentRotationChangesRotation</Member>
+            <ValueAsBool>true</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Red</Member>
+            <ValueAsFloat>0</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>RotationZ</Member>
+            <ValueAsFloat>0</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>Microsoft.Xna.Framework.Graphics.Texture2D</Type>
+            <Member>Texture</Member>
+            <ValueAsString>Tank_Weapon_Pixelator</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>TextureScale</Member>
+            <ValueAsFloat>0.6532284</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>UseAnimationRelativePosition</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>19</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Y</Member>
+            <ValueAsFloat>1</ValueAsFloat>
+          </CustomProperty>
+          <Properties>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+            <PropertySave>
+              <Name>SourceType</Name>
+              <ValueAsObject xsi:type="SourceType">FlatRedBallType</ValueAsObject>
+            </PropertySave>
+          </Properties>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile>Sprite</SourceFile>
+          <SourceClassType>FlatRedBall.Sprite</SourceClassType>
+          <InstanceName>SpriteInstance1</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>false</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>Microsoft.Xna.Framework.Color</Type>
+            <Member>Color</Member>
+            <ValueAsString>Turquoise</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>IgnoreParentPosition</Member>
+            <ValueAsBool>false</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>ParentRotationChangesPosition</Member>
+            <ValueAsBool>true</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>bool</Type>
+            <Member>ParentRotationChangesRotation</Member>
+            <ValueAsBool>true</ValueAsBool>
+          </CustomProperty>
+          <CustomProperty>
+            <Member>Points</Member>
+            <ValueAsListOfVector2>
+              <Vector2>
+                <X>0</X>
+                <Y>0</Y>
+              </Vector2>
+              <Vector2>
+                <X>40</X>
+                <Y>0</Y>
+              </Vector2>
+              <Vector2>
+                <X>40</X>
+                <Y>1.5</Y>
+              </Vector2>
+              <Vector2>
+                <X>40</X>
+                <Y>3</Y>
+              </Vector2>
+              <Vector2>
+                <X>0</X>
+                <Y>3</Y>
+              </Vector2>
+              <Vector2>
+                <X>0</X>
+                <Y>0</Y>
+              </Vector2>
+            </ValueAsListOfVector2>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>RotationZ</Member>
+            <ValueAsFloat>0</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>X</Member>
+            <ValueAsFloat>0</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Y</Member>
+            <ValueAsFloat>0</ValueAsFloat>
+          </CustomProperty>
+          <Properties>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+            <PropertySave>
+              <Name>SourceType</Name>
+              <ValueAsObject xsi:type="SourceType">FlatRedBallType</ValueAsObject>
+            </PropertySave>
+          </Properties>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile>Polygon</SourceFile>
+          <SourceClassType>FlatRedBall.Math.Geometry.Polygon</SourceClassType>
+          <InstanceName>Turret</InstanceName>
+          <HasPublicProperty>true</HasPublicProperty>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IncludeInICollidable>false</IncludeInICollidable>
+          <IndependentOfCamera>false</IndependentOfCamera>
+        </NamedObjectSave>
+      </NamedObjects>
+      <Name>Entities\PlayerTurret</Name>
+      <CustomClassesForExport />
+      <ImplementsIDrawableBatch>false</ImplementsIDrawableBatch>
+      <CreatedByOtherEntities>true</CreatedByOtherEntities>
       <Is2D>true</Is2D>
     </EntitySave>
     <EntitySave>
@@ -1137,56 +1231,23 @@
         <NamedObjectSave>
           <CustomProperty>
             <Type>float</Type>
-            <Member>TextureScale</Member>
-            <ValueAsFloat>1</ValueAsFloat>
+            <Member>Height</Member>
+            <ValueAsFloat>16</ValueAsFloat>
           </CustomProperty>
-          <Properties>
-            <PropertySave>
-              <Name>AssociateWithFactory</Name>
-              <ValueAsBool>true</ValueAsBool>
-            </PropertySave>
-            <PropertySave>
-              <Name>SourceType</Name>
-              <ValueAsObject xsi:type="SourceType">FlatRedBallType</ValueAsObject>
-            </PropertySave>
-          </Properties>
-          <SourceType>FlatRedBallType</SourceType>
-          <SourceFile>Sprite</SourceFile>
-          <SourceClassType>FlatRedBall.Sprite</SourceClassType>
-          <InstanceName>SpriteInstance</InstanceName>
-          <AttachToContainer>true</AttachToContainer>
-          <GenerateTimedEmit>true</GenerateTimedEmit>
-          <IndependentOfCamera>false</IndependentOfCamera>
-        </NamedObjectSave>
-        <NamedObjectSave>
           <CustomProperty>
-            <Member>Points</Member>
-            <ValueAsListOfVector2>
-              <Vector2>
-                <X>0</X>
-                <Y>0</Y>
-              </Vector2>
-              <Vector2>
-                <X>2</X>
-                <Y>0</Y>
-              </Vector2>
-              <Vector2>
-                <X>2</X>
-                <Y>3</Y>
-              </Vector2>
-              <Vector2>
-                <X>1</X>
-                <Y>5</Y>
-              </Vector2>
-              <Vector2>
-                <X>0</X>
-                <Y>3</Y>
-              </Vector2>
-              <Vector2>
-                <X>0</X>
-                <Y>0</Y>
-              </Vector2>
-            </ValueAsListOfVector2>
+            <Type>Microsoft.Xna.Framework.Graphics.Texture2D</Type>
+            <Member>Texture</Member>
+            <ValueAsString>Proyectile_2_pixelart</ValueAsString>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>TextureScale</Member>
+            <ValueAsFloat>0.30936873</ValueAsFloat>
+          </CustomProperty>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Width</Member>
+            <ValueAsFloat>16</ValueAsFloat>
           </CustomProperty>
           <CustomProperty>
             <Type>float</Type>
@@ -1209,9 +1270,33 @@
             </PropertySave>
           </Properties>
           <SourceType>FlatRedBallType</SourceType>
-          <SourceFile>Polygon</SourceFile>
-          <SourceClassType>FlatRedBall.Math.Geometry.Polygon</SourceClassType>
-          <InstanceName>PolygonInstance</InstanceName>
+          <SourceFile>Sprite</SourceFile>
+          <SourceClassType>FlatRedBall.Sprite</SourceClassType>
+          <InstanceName>SpriteInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <GenerateTimedEmit>true</GenerateTimedEmit>
+          <IndependentOfCamera>false</IndependentOfCamera>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <CustomProperty>
+            <Type>float</Type>
+            <Member>Radius</Member>
+            <ValueAsFloat>4.000001</ValueAsFloat>
+          </CustomProperty>
+          <Properties>
+            <PropertySave>
+              <Name>AssociateWithFactory</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+            <PropertySave>
+              <Name>SourceType</Name>
+              <ValueAsObject xsi:type="SourceType">FlatRedBallType</ValueAsObject>
+            </PropertySave>
+          </Properties>
+          <SourceType>FlatRedBallType</SourceType>
+          <SourceFile>Circle</SourceFile>
+          <SourceClassType>FlatRedBall.Math.Geometry.Circle</SourceClassType>
+          <InstanceName>CircleInstance</InstanceName>
           <HasPublicProperty>true</HasPublicProperty>
           <AttachToContainer>true</AttachToContainer>
           <GenerateTimedEmit>true</GenerateTimedEmit>
@@ -1333,7 +1418,7 @@
     <SupportLandscape>true</SupportLandscape>
     <SupportPortrait>false</SupportPortrait>
     <RunInFullScreen>false</RunInFullScreen>
-    <AllowWindowResizing>false</AllowWindowResizing>
+    <AllowWindowResizing>true</AllowWindowResizing>
     <Scale>100</Scale>
     <ScaleGum>100</ScaleGum>
     <ResizeBehavior>StretchVisibleArea</ResizeBehavior>

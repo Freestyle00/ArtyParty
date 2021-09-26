@@ -16,6 +16,7 @@ namespace ArtyParty.Screens
         static bool HasBeenLoadedWithGlobalContentManager = false;
         #endif
         protected static ArtyParty.GumRuntimes.GameScreenGumRuntime GameScreenGum;
+        protected static Microsoft.Xna.Framework.Audio.SoundEffect Mortar_Blast_Sound;
         
         protected FlatRedBall.TileGraphics.LayeredTileMap Map;
         protected FlatRedBall.TileCollisions.TileShapeCollection SolidCollision;
@@ -119,6 +120,7 @@ namespace ArtyParty.Screens
             Factories.Armor_Piercing_roundFactory.Destroy();
             GameScreenGum.RemoveFromManagers();FlatRedBall.FlatRedBallServices.GraphicsOptions.SizeOrOrientationChanged -= RefreshLayoutInternal;
             GameScreenGum = null;
+            Mortar_Blast_Sound = null;
             
             Armor_Piercing_roundList.MakeOneWay();
             if (CameraControllingEntityInstance != null)
@@ -254,6 +256,7 @@ namespace ArtyParty.Screens
             }
             #endif
             if(GameScreenGum == null) GameScreenGum = (ArtyParty.GumRuntimes.GameScreenGumRuntime)GumRuntime.ElementSaveExtensions.CreateGueForElement(Gum.Managers.ObjectFinder.Self.GetScreen("GameScreenGum"), true);
+            Mortar_Blast_Sound = FlatRedBall.FlatRedBallServices.Load<Microsoft.Xna.Framework.Audio.SoundEffect>(@"content/entities/player/mortar_blast_sound", contentManagerName);
             ArtyParty.Entities.Player.LoadStaticContent(contentManagerName);
             CustomLoadStaticContent(contentManagerName);
         }
@@ -274,6 +277,8 @@ namespace ArtyParty.Screens
             {
                 case  "GameScreenGum":
                     return GameScreenGum;
+                case  "Mortar_Blast_Sound":
+                    return Mortar_Blast_Sound;
             }
             return null;
         }
@@ -283,6 +288,8 @@ namespace ArtyParty.Screens
             {
                 case  "GameScreenGum":
                     return GameScreenGum;
+                case  "Mortar_Blast_Sound":
+                    return Mortar_Blast_Sound;
             }
             return null;
         }
@@ -292,6 +299,8 @@ namespace ArtyParty.Screens
             {
                 case  "GameScreenGum":
                     return GameScreenGum;
+                case  "Mortar_Blast_Sound":
+                    return Mortar_Blast_Sound;
             }
             return null;
         }

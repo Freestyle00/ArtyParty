@@ -27,20 +27,19 @@ namespace ArtyParty.Entities
 			///<summary>
 			///This function serves the purpose of letting the player move the turret of the entity
 			///</summary>
-			if ((VerticalInput.Value > 0 && InputManager.Keyboard.KeyDown(Keys.LeftControl)) && (this.Turret.RelativeRotationZ < UPPER_MAXIMUM_TURRET_ROTATION_POINT)) Turret.RelativeRotationZVelocity = FASTER_TURRET_SPEED;
-			else if (VerticalInput.Value > 0 && this.Turret.RelativeRotationZ < UPPER_MAXIMUM_TURRET_ROTATION_POINT) Turret.RelativeRotationZVelocity = NORMAL_TURRET_SPEED;
-			else if ((VerticalInput.Value < 0 && InputManager.Keyboard.KeyDown(Keys.LeftControl)) && this.Turret.RelativeRotationZ > LOWER_MAXIMUM_TURRET_ROTATION_POINT) Turret.RelativeRotationZVelocity = -FASTER_TURRET_SPEED;
-			else if (VerticalInput.Value < 0 && this.Turret.RelativeRotationZ > LOWER_MAXIMUM_TURRET_ROTATION_POINT) Turret.RelativeRotationZVelocity = -NORMAL_TURRET_SPEED;
-			else Turret.RelativeRotationZVelocity = 0;
-			SpriteInstance1.RelativeRotationZ = Turret.RelativeRotationZ;
+			if ((VerticalInput.Value > 0 && InputManager.Keyboard.KeyDown(Keys.LeftControl)) && (this.PlayerTurretInstance.RelativeRotationZ < UPPER_MAXIMUM_TURRET_ROTATION_POINT)) PlayerTurretInstance.RelativeRotationZVelocity = FASTER_TURRET_SPEED;
+			else if (VerticalInput.Value > 0 && this.PlayerTurretInstance.RelativeRotationZ < UPPER_MAXIMUM_TURRET_ROTATION_POINT) PlayerTurretInstance.RelativeRotationZVelocity = NORMAL_TURRET_SPEED;
+			else if ((VerticalInput.Value < 0 && InputManager.Keyboard.KeyDown(Keys.LeftControl)) && this.PlayerTurretInstance.RelativeRotationZ > LOWER_MAXIMUM_TURRET_ROTATION_POINT) PlayerTurretInstance.RelativeRotationZVelocity = -FASTER_TURRET_SPEED;
+			else if (VerticalInput.Value < 0 && this.PlayerTurretInstance.RelativeRotationZ > LOWER_MAXIMUM_TURRET_ROTATION_POINT) PlayerTurretInstance.RelativeRotationZVelocity = -NORMAL_TURRET_SPEED;
+			else PlayerTurretInstance.RelativeRotationZVelocity = 0;
 		}
 		void Shooting()
 		{
 			if (InputManager.Keyboard.KeyPushed(Keys.Space))
 			{
-				var position = Turret.AbsolutePointPosition(2) + new Vector3(1, 0, 0);
+				var position = PlayerTurretInstance.Turret.AbsolutePointPosition(2) + new Vector3(1, 0, 0);
 				var bullet = Factories.Armor_Piercing_roundFactory.CreateNew(position);
-				bullet.__init__(Turret.RelativeRotationZ - TURRET_ROTATION_DIFFERENCE, position);
+				bullet.__init__(PlayerTurretInstance.RelativeRotationZ - TURRET_ROTATION_DIFFERENCE, position);
 				Mortar_Blast_Sound.Play(1, 0, 0);
 			}
 		}

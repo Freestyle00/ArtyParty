@@ -24,6 +24,7 @@ namespace ArtyParty.Entities.Projectiles
 			this.Position = Position;
 			this.Velocity.X = (float)Math.Cos(Rotation) * MAXIMUM_SPEED;
 			this.Velocity.Y = (float)Math.Sin(Rotation) * MAXIMUM_SPEED;
+			this.Z = -1;
 		}
 		void Bullet_Rotation()
 		{

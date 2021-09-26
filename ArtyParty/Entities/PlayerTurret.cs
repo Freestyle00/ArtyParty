@@ -11,7 +11,7 @@ using FlatRedBall.Math.Geometry;
 
 namespace ArtyParty.Entities
 {
-    public partial class Player
+    public partial class PlayerTurret
     {
         /// <summary>
         /// Initialization logic which is execute only one time for this Entity (unless the Entity is pooled).
@@ -20,14 +20,14 @@ namespace ArtyParty.Entities
         /// </summary>
         private void CustomInitialize()
         {
-            Inputcode();
-            
+            this.RelativeRotationZ = 1;
+
         }
 
         private void CustomActivity()
         {
-            TurretMoving();
-            Shooting();
+            
+
         }
 
         private void CustomDestroy()

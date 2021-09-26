@@ -1,14 +1,12 @@
-System.IO.FileNotFoundException: Could not find the file C:/Users/Nick_/Documents/FlatRedBallProjects/ArtyParty/ArtyParty/bin/DesktopGL/x86/Debug/content/entities/player/mortar_blast_sound.xnb
-
-   bei FlatRedBall.Content.ContentManager.LoadFromProject[T](String assetName) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Content\ContentManager.cs:Zeile 446.
-   bei FlatRedBall.Content.ContentManager.Load[T](String assetName) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Content\ContentManager.cs:Zeile 420.
-   bei FlatRedBall.FlatRedBallServices.Load[T](String assetName, String contentManagerName) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\FlatRedBallServices.cs:Zeile 1096.
-   bei ArtyParty.Entities.Player.LoadStaticContent(String contentManagerName) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Entities\Player.Generated.cs:Zeile 746.
-   bei ArtyParty.Screens.GameScreen.LoadStaticContent(String contentManagerName) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Screens\GameScreen.Generated.cs:Zeile 264.
-   bei ArtyParty.Screens.Level1.LoadStaticContent(String contentManagerName) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Screens\Level1.Generated.cs:Zeile 124.
-   bei ArtyParty.Screens.Level1.Initialize(Boolean addToManagers) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Screens\Level1.Generated.cs:Zeile 29.
-   bei FlatRedBall.Screens.ScreenManager.LoadScreen(String screen) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Screens\ScreenManager.cs:Zeile 436.
-   bei FlatRedBall.Screens.ScreenManager.Start(Type screenToStartWithType) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Screens\ScreenManager.cs:Zeile 341.
+System.ArgumentException: Can't attach an object to itself.
+   bei FlatRedBall.PositionedObject.AttachTo(PositionedObject newParent, Boolean changeRelative) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\PositionedObject.cs:Zeile 1409.
+   bei ArtyParty.Screens.GameScreen.CustomInitialize() in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Screens\GameScreen.cs:Zeile 24.
+   bei ArtyParty.Screens.GameScreen.AddToManagers() in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Screens\GameScreen.Generated.cs:Zeile 94.
+   bei ArtyParty.Screens.Level1.AddToManagers() in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Screens\Level1.Generated.cs:Zeile 44.
+   bei ArtyParty.Screens.GameScreen.Initialize(Boolean addToManagers) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Screens\GameScreen.Generated.cs:Zeile 79.
+   bei ArtyParty.Screens.Level1.Initialize(Boolean addToManagers) in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Screens\Level1.Generated.cs:Zeile 38.
+   bei FlatRedBall.Screens.ScreenManager.LoadScreen(String screen) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Screens\ScreenManager.cs:Zeile 448.
+   bei FlatRedBall.Screens.ScreenManager.Start(Type screenToStartWithType) in C:\BuildAgent\work\a22593881c1cbdfe\FlatRedBall\Engines\FlatRedBallXNA\FlatRedBall\Screens\ScreenManager.cs:Zeile 350.
    bei ArtyParty.Game1.Initialize() in C:\Users\Nick_\Documents\FlatRedBallProjects\ArtyParty\ArtyParty\Game1.cs:Zeile 88.
    bei Microsoft.Xna.Framework.Game.DoInitialize()
    bei Microsoft.Xna.Framework.Game.Run(GameRunBehavior runBehavior)
